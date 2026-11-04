@@ -235,6 +235,7 @@ export const facts: VerifiedFact[] = [
     source: 'Camera file names IMG20261006183621/31/39/52.heic',
     verificationStatus: 'confirmed',
     dateKind: 'capture',
+    notes: 'These photos were removed from the site at Ruru’s request (05.11.2026). Kept here as a record only.',
   },
   {
     id: 'white-memoir',

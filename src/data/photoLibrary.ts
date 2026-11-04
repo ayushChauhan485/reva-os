@@ -152,20 +152,6 @@ export const photoLibrary: PhotoAsset[] = [
     added: 'v1',
     people: 'reva',
   },
-
-  // ── The Handmade One (pipe-cleaner flowers by Ruru) ───────────────────
-  { id: 'BQ-F0912', filename: 'bq-f0912', title: 'The first petals', description: 'Pink pipe cleaners being twisted into petals. Still from a making-of video.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'lily'], fileDate: '2026-09-12', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0914a', filename: 'bq-f0914a', title: 'The first lily', description: 'The first finished pipe-cleaner lily, held to the camera.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'lily'], fileDate: '2026-09-14', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0914b', filename: 'bq-f0914b', title: 'Lily in hand', description: 'A pink-and-white lily, the same evening.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'lily'], fileDate: '2026-09-14', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-P01', filename: 'bq-p01', title: 'Three lilies', description: 'Three finished lilies, pink with pink centres.', albumIds: ['flowers'], tags: ['handmade', 'lily'], fileDate: '2026-09-17', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'photo', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0919', filename: 'bq-f0919', title: 'A bunch on stems', description: 'Lilies with green stems and leaves.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'lily'], fileDate: '2026-09-19', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0921', filename: 'bq-f0921', title: 'Poppies arrive', description: 'The first red poppies, two days after "I like poppy flower".', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'poppy'], fileDate: '2026-09-21', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: true, factIds: ['handmade-bouquet', 'tiger-lily'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0922', filename: 'bq-f0922', title: 'Complete', description: 'Lilies and poppies together, held up.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'lily', 'poppy'], fileDate: '2026-09-22', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-F0923', filename: 'bq-f0923', title: 'In the vase', description: 'The finished bouquet in a glass vase.', albumIds: ['flowers'], tags: ['handmade', 'making-of', 'vase'], fileDate: '2026-09-23', dateStatus: 'approximate', eventAssociation: 'confirmed', isFavourite: false, factIds: ['handmade-bouquet'], kind: 'video-still', added: 'v2', people: 'ruru' },
-  { id: 'BQ-HD2', filename: 'bq-hd2', title: 'The Handmade One', description: 'The finished bouquet: pink-and-white lilies and red poppies, all pipe cleaner.', albumIds: ['flowers'], tags: ['handmade', 'bouquet', 'lily', 'poppy'], verifiedDate: '2026-10-06', dateStatus: 'verified', eventAssociation: 'confirmed', isFavourite: true, factIds: ['bouquet-photographed'], kind: 'photo', added: 'v1', people: 'none' },
-  { id: 'BQ-HD3', filename: 'bq-hd3', title: 'The Handmade One, close', description: 'Pink inwards, as specified on 18 June.', albumIds: ['flowers'], tags: ['handmade', 'bouquet', 'lily', 'white lily'], verifiedDate: '2026-10-06', dateStatus: 'verified', eventAssociation: 'confirmed', isFavourite: false, factIds: ['bouquet-photographed'], kind: 'photo', added: 'v1', people: 'none' },
-  { id: 'BQ-HD1', filename: 'bq-hd1', title: 'The tallest lily', description: 'The bouquet from the side.', albumIds: ['flowers'], tags: ['handmade', 'bouquet', 'lily'], verifiedDate: '2026-10-06', dateStatus: 'verified', eventAssociation: 'confirmed', isFavourite: false, factIds: ['bouquet-photographed'], kind: 'photo', added: 'v2', people: 'none' },
-  { id: 'BQ-HD4', filename: 'bq-hd4', title: 'Poppies and lilies', description: 'The bouquet, low angle.', albumIds: ['flowers'], tags: ['handmade', 'bouquet', 'poppy'], verifiedDate: '2026-10-06', dateStatus: 'verified', eventAssociation: 'confirmed', isFavourite: false, factIds: ['bouquet-photographed'], kind: 'photo', added: 'v2', people: 'none' },
 ];
 
 export interface Album {
@@ -206,12 +192,7 @@ export const albums: Album[] = [
     id: 'flowers',
     no: '06',
     title: 'The Flower Archive',
-    blurb: 'Real photographs of the handmade flowers. Illustrations live in the Flower Department and are labelled.',
-    cover: 'BQ-HD2',
-    sections: [
-      { title: 'The Handmade One · making-of', note: 'Stills from Ruru’s videos, dated by file.', tag: 'making-of' },
-      { title: 'The Handmade One · finished', note: 'Photographed 06.10.2026 (camera timestamp).', tag: 'bouquet' },
-    ],
+    blurb: 'No flower photographs in the library right now. White Memoir’s photo is still to come; the drawings live, labelled, in the Flower Department.',
   },
   { id: 'being-reva', no: '07', title: 'Reva Being Reva', blurb: 'Pouts, sunglasses, and general unimpressedness.', cover: 'P03' },
   { id: 'unsorted', no: '08', title: 'Unsorted / Undated', blurb: 'Photographs whose date or event isn’t established. Kept honestly unassigned.', cover: 'P15', computed: true },

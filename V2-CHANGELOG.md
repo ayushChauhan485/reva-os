@@ -32,10 +32,7 @@ V1 is preserved as git tag `v1` (commit `3e19ba1`). V2 is on branch `v2`.
 ## Photographs
 
 - **One registry:** `src/data/photoLibrary.ts`. Every app resolves photos through `src/lib/photos.ts`. Each photo has one canonical id, metadata (dates by kind, association, albums, tags, related memory, facts), an orientation-corrected original, a thumbnail and optional recorded edits.
-- **Library:** grew from 10 to 32. Added:
-  - 11 more approved portraits and photos together;
-  - 4 HD photos of the finished handmade bouquet;
-  - 7 dated stills from Ruru’s flower-making videos.
+- **Library:** grew from 10 to 20: 11 more approved portraits and photos together. (8 photos of Ruru with his handmade flowers and 4 photos of the finished bouquet were added, then removed at Ruru’s request on 05.11.2026.)
 - **Pipeline:** `npm run assets` strips EXIF/GPS and uses semantic file names. `npm run contact-sheet` and `npm run photo-inventory` produce the review documents.
 
 ## photos.exe (new app)
@@ -63,7 +60,7 @@ V1 is preserved as git tag `v1` (commit `3e19ba1`). V2 is on branch `v2`.
   - a recently-viewed widget;
   - photo wallpapers (fill / fit / centre / blurred; portraits are never cropped), with a reset in Settings.
 - **Archive:** memories with photos get a film strip and a link to their album in photos.exe. Memories without photos say so.
-- **Flower Department:** illustrations are labelled as illustrations. Real photos sit on the handmade plate, with handmade versions shown on the white-lily and poppy plates (labelled "pipe cleaner, not a real flower"). The handmade plate has an 8-step making-of timeline dated by file, and White Memoir stays a placeholder.
+- **Flower Department:** every plate is a labelled illustration; there are no flower photographs (the handmade-bouquet photos were removed at Ruru’s request). White Memoir stays a placeholder.
 - **Dictionary:** entries can carry a same-day photo ("2 din pehle se" ↔ 6 May bowling). Random can add a random photo.
 - **27th Club:** confirmed photos per event (6 May). Elegant empty-photo cards elsewhere, including 27 Jun. The club-origin quote sits in the header.
 - **Reva Awards:**
@@ -85,3 +82,8 @@ V1 is preserved as git tag `v1` (commit `3e19ba1`). V2 is on branch `v2`.
 ## Not done (optional extras, deliberately deferred)
 
 Photo Booth, Then & Now, and the printable contact sheet *inside the app* are not built. A contact sheet exists as a private document (`docs/contact-sheet.jpg`).
+
+## Update · 05.11.2026
+
+- P12 stays unedited (Ruru’s decision); the crop is recorded but never shown.
+- Removed at Ruru’s request: every photo of Ruru (the 8 flower-making stills, all showing him) and the 4 handmade-bouquet photos. They are listed as excluded in `scripts/asset-sources.json`, their web copies are deleted, and the Flower Department and Flower Archive fall back to labelled illustrations and placeholders. The library now has 20 photographs.

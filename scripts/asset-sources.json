@@ -2,72 +2,242 @@
   "_note": "Private build input, NOT shipped. Maps each photo ID to its ORIGINAL file under sourceRoot. Originals are only ever read. `npm run assets` writes orientation-corrected copies (+ optional derivatives) to public/assets/photos with metadata stripped. Every derivative records exactly what it changes; `approved: false` means it is generated but NOT shown by default.",
   "sourceRoot": "../../../Birthday",
   "photos": {
-    "P01": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.15.jpeg", "out": "p01" },
-    "P02": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.17.jpeg", "out": "p02" },
-    "P03": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.18.jpeg", "out": "p03" },
-    "P04": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.19.jpeg", "out": "p04" },
-    "P07": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.24.jpeg", "out": "p07" },
-    "P08": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.25.jpeg", "out": "p08" },
-    "P09": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.26.jpeg", "out": "p09" },
+    "P01": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.15.jpeg",
+      "out": "p01"
+    },
+    "P02": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.17.jpeg",
+      "out": "p02"
+    },
+    "P03": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.18.jpeg",
+      "out": "p03"
+    },
+    "P04": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.19.jpeg",
+      "out": "p04"
+    },
+    "P07": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.24.jpeg",
+      "out": "p07"
+    },
+    "P08": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.25.jpeg",
+      "out": "p08"
+    },
+    "P09": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.26.jpeg",
+      "out": "p09"
+    },
     "P11": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.29.jpeg",
       "out": "p11",
-      "derivative": { "crop": { "left": 0, "top": 0, "width": 1600, "height": 1000 }, "removes": "bottom strip with the camera date stamp '01/01/2007' (camera clock reset, not a real date)", "approved": true }
+      "derivative": {
+        "crop": {
+          "left": 0,
+          "top": 0,
+          "width": 1600,
+          "height": 1000
+        },
+        "removes": "bottom strip with the camera date stamp '01/01/2007' (camera clock reset, not a real date)",
+        "approved": true
+      }
     },
     "P12": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.30.jpeg",
       "out": "p12",
       "rotate": 270,
       "rotateWhy": "the file is stored sideways; rotation is orientation correction only",
-      "derivative": { "crop": { "left": 322, "top": 380, "width": 878, "height": 1220 }, "removes": "a person in the background (left) and the camera date stamp '06/05/2016' (top right)", "approved": false, "decision": "Ruru, 05.11.2026: keep P12 unedited; this crop is not shown" }
+      "derivative": {
+        "crop": {
+          "left": 322,
+          "top": 380,
+          "width": 878,
+          "height": 1220
+        },
+        "removes": "a person in the background (left) and the camera date stamp '06/05/2016' (top right)",
+        "approved": false,
+        "decision": "Ruru, 05.11.2026: keep P12 unedited; this crop is not shown"
+      }
     },
     "P13": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.32.jpeg",
       "out": "p13",
-      "derivative": { "crop": { "left": 0, "top": 0, "width": 1600, "height": 1000 }, "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)", "approved": true }
+      "derivative": {
+        "crop": {
+          "left": 0,
+          "top": 0,
+          "width": 1600,
+          "height": 1000
+        },
+        "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
+        "approved": true
+      }
     },
     "P14": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.33.jpeg",
       "out": "p14",
-      "derivative": { "crop": { "left": 0, "top": 0, "width": 1600, "height": 1000 }, "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)", "approved": true }
+      "derivative": {
+        "crop": {
+          "left": 0,
+          "top": 0,
+          "width": 1600,
+          "height": 1000
+        },
+        "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
+        "approved": true
+      }
     },
-    "P15": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.35.jpeg", "out": "p15" },
-    "P16": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.36.jpeg", "out": "p16" },
-    "P17": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.37.jpeg", "out": "p17" },
-    "P19": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.40.jpeg", "out": "p19" },
-    "P20": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.41.jpeg", "out": "p20" },
-    "P23": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.46.jpeg", "out": "p23" },
-    "P26": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.50.jpeg", "out": "p26" },
-    "P31": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.56.jpeg", "out": "p31" },
-    "P32": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.57.jpeg", "out": "p32" },
-
-    "BQ-P01": { "src": "Videos/WhatsApp Image 2026-09-17 at 23.29.37.jpeg", "out": "bq-p01" },
-    "BQ-HD1": { "src": "incoming/IMG20261006183621.heic", "out": "bq-hd1", "heic": true },
-    "BQ-HD2": { "src": "incoming/IMG20261006183631.heic", "out": "bq-hd2", "heic": true },
-    "BQ-HD3": { "src": "incoming/IMG20261006183639.heic", "out": "bq-hd3", "heic": true },
-    "BQ-HD4": { "src": "incoming/IMG20261006183652.heic", "out": "bq-hd4", "heic": true },
-
-    "BQ-F0912": { "video": "Videos/WhatsApp Video 2026-09-12 at 22.13.21.mp4", "at": 55, "out": "bq-f0912" },
-    "BQ-F0914a": { "video": "Videos/WhatsApp Video 2026-09-14 at 17.09.01.mp4", "at": 9, "out": "bq-f0914a" },
-    "BQ-F0914b": { "video": "Videos/WhatsApp Video 2026-09-14 at 19.43.39.mp4", "at": 32, "out": "bq-f0914b" },
-    "BQ-F0919": { "video": "Videos/WhatsApp Video 2026-09-19 at 21.07.28.mp4", "at": 13, "out": "bq-f0919" },
-    "BQ-F0921": { "video": "Videos/WhatsApp Video 2026-09-21 at 22.17.45.mp4", "at": 22, "out": "bq-f0921" },
-    "BQ-F0922": { "video": "Videos/WhatsApp Video 2026-09-22 at 21.48.45.mp4", "at": 16, "out": "bq-f0922" },
-    "BQ-F0923": { "video": "Videos/WhatsApp Video 2026-09-23 at 19.02.26.mp4", "at": 25, "out": "bq-f0923" }
+    "P15": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.35.jpeg",
+      "out": "p15"
+    },
+    "P16": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.36.jpeg",
+      "out": "p16"
+    },
+    "P17": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.37.jpeg",
+      "out": "p17"
+    },
+    "P19": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.40.jpeg",
+      "out": "p19"
+    },
+    "P20": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.41.jpeg",
+      "out": "p20"
+    },
+    "P23": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.46.jpeg",
+      "out": "p23"
+    },
+    "P26": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.50.jpeg",
+      "out": "p26"
+    },
+    "P31": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.56.jpeg",
+      "out": "p31"
+    },
+    "P32": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.57.jpeg",
+      "out": "p32"
+    }
   },
   "excluded": {
-    "P05": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.21.jpeg", "reason": "Your instruction: party context not confirmed (also third parties)." },
-    "P06": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.22.jpeg", "reason": "Allowlist: 'unflattering crop - check with Ayush'. Awaiting your approval." },
-    "P10": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.28.jpeg", "reason": "Your instruction: bench-event date unresolved; couple bench photo excluded." },
-    "P18": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.39.jpeg", "reason": "Media index: family / second child unidentified (rated D)." },
-    "P21": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.43.jpeg", "reason": "Allowlist: 'intimate framing - use sparingly'. Awaiting your approval." },
-    "P22": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.44.jpeg", "reason": "Your instruction: Pecfest identification unconfirmed (rated D)." },
-    "P24": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.47.jpeg", "reason": "Third party prominent (allowlist: crop or blur only)." },
-    "P25": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.48.jpeg", "reason": "Your instruction: bench-event date unresolved." },
-    "P27": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.51.jpeg", "reason": "Your instruction: person not identified (excluded in V1 brief)." },
-    "P28": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.53.jpeg", "reason": "Your instruction: Pecfest identification unconfirmed (rated D)." },
-    "P29": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.54.jpeg", "reason": "Unidentified man prominent (rated D)." },
-    "P30": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.55.jpeg", "reason": "Third party / school name visible (rated D)." },
-    "BQ-HD0": { "src": "incoming/IMG20261006183608.heic", "reason": "Near-duplicate of BQ-HD2." }
+    "P05": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.21.jpeg",
+      "reason": "Your instruction: party context not confirmed (also third parties)."
+    },
+    "P06": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.22.jpeg",
+      "reason": "Allowlist: 'unflattering crop - check with Ayush'. Awaiting your approval."
+    },
+    "P10": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.28.jpeg",
+      "reason": "Your instruction: bench-event date unresolved; couple bench photo excluded."
+    },
+    "P18": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.39.jpeg",
+      "reason": "Media index: family / second child unidentified (rated D)."
+    },
+    "P21": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.43.jpeg",
+      "reason": "Allowlist: 'intimate framing - use sparingly'. Awaiting your approval."
+    },
+    "P22": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.44.jpeg",
+      "reason": "Your instruction: Pecfest identification unconfirmed (rated D)."
+    },
+    "P24": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.47.jpeg",
+      "reason": "Third party prominent (allowlist: crop or blur only)."
+    },
+    "P25": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.48.jpeg",
+      "reason": "Your instruction: bench-event date unresolved."
+    },
+    "P27": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.51.jpeg",
+      "reason": "Your instruction: person not identified (excluded in V1 brief)."
+    },
+    "P28": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.53.jpeg",
+      "reason": "Your instruction: Pecfest identification unconfirmed (rated D)."
+    },
+    "P29": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.54.jpeg",
+      "reason": "Unidentified man prominent (rated D)."
+    },
+    "P30": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.55.jpeg",
+      "reason": "Third party / school name visible (rated D)."
+    },
+    "BQ-P01": {
+      "src": "Videos/WhatsApp Image 2026-09-17 at 23.29.37.jpeg",
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-HD1": {
+      "src": "incoming/IMG20261006183621.heic",
+      "heic": true,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-HD2": {
+      "src": "incoming/IMG20261006183631.heic",
+      "heic": true,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-HD3": {
+      "src": "incoming/IMG20261006183639.heic",
+      "heic": true,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-HD4": {
+      "src": "incoming/IMG20261006183652.heic",
+      "heic": true,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0912": {
+      "video": "Videos/WhatsApp Video 2026-09-12 at 22.13.21.mp4",
+      "at": 55,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0914a": {
+      "video": "Videos/WhatsApp Video 2026-09-14 at 17.09.01.mp4",
+      "at": 9,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0914b": {
+      "video": "Videos/WhatsApp Video 2026-09-14 at 19.43.39.mp4",
+      "at": 32,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0919": {
+      "video": "Videos/WhatsApp Video 2026-09-19 at 21.07.28.mp4",
+      "at": 13,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0921": {
+      "video": "Videos/WhatsApp Video 2026-09-21 at 22.17.45.mp4",
+      "at": 22,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0922": {
+      "video": "Videos/WhatsApp Video 2026-09-22 at 21.48.45.mp4",
+      "at": 16,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-F0923": {
+      "video": "Videos/WhatsApp Video 2026-09-23 at 19.02.26.mp4",
+      "at": 25,
+      "reason": "Removed at Ruru's request (05.11.2026): photos of Ruru / the handmade bouquet."
+    },
+    "BQ-HD0": {
+      "src": "incoming/IMG20261006183608.heic",
+      "heic": true,
+      "reason": "Handmade bouquet photo; removed at Ruru's request (05.11.2026)."
+    }
   }
 }

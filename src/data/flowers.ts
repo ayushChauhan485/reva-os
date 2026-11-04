@@ -12,7 +12,6 @@ export const flowers: Flower[] = [
     messages: ['m-1806-0', 'm-1806-a', 'm-1806-b', 'm-1806-c', 'm-1806-d'],
     date: '18.06.2026',
     art: 'white-lily',
-    handmadePhoto: 'BQ-HD3',
   },
   {
     id: 'petrol-pump',
@@ -43,7 +42,6 @@ export const flowers: Flower[] = [
     messages: ['m-1909-poppy', 'm-1909-yuhi', 'm-1909-notabout', 'm-1909-me', 'm-1909-notexactly'],
     date: '19.09.2026',
     art: 'poppy',
-    handmadePhoto: 'BQ-F0921',
   },
   {
     id: 'handmade',
@@ -52,8 +50,6 @@ export const flowers: Flower[] = [
     symbolism: 'No traditional meaning. Took about two weeks.',
     story: 'Pipe-cleaner lilies, pink-and-white with pink inwards, and red poppies, which appear from 21 September. Made by Ruru between 12 and 23 September 2026 (dated by his video files). Not real cut flowers, which is rather the point.',
     date: '12–23.09.2026',
-    photo: 'BQ-HD2',
-    timeline: ['BQ-F0912', 'BQ-F0914a', 'BQ-F0914b', 'BQ-P01', 'BQ-F0919', 'BQ-F0921', 'BQ-F0922', 'BQ-F0923'],
     art: 'handmade',
   },
   {

@@ -40,7 +40,7 @@ The scripts look for the export at `../../Birthday/WhatsApp Chat with Revaa.txt`
 |---|---|---|
 | `our_archive.exe` | The Museum of Us | File explorer by date, search, random memory, favourites, sealed 27.04 note, a film strip for memories with photos, a link to their album |
 | `photos.exe` | Reva Photo Library | Home with stats and album covers, 8 albums, grid / masonry / filmstrip / timeline views, search and filters, favourites, random photo, slideshow, the Wall of Reva, memory-strip maker, set as wallpaper |
-| `flower.exe` | The Flower Department | Botanical plates (illustrations labelled), real photos of the handmade bouquet and its dated making-of, White Memoir placeholder, bouquet studio |
+| `flower.exe` | The Flower Department | Botanical plates (labelled illustrations), White Memoir placeholder, bouquet studio |
 | `reva_isms.exe` | The Reva Dictionary | Searchable entries with original messages, filters, random (+ optional photo), “this is SO Reva” |
 | `the_27th.exe` | The 27th Club | Calendar with marked 27ths, confirmed photos per event, empty-photo cards elsewhere, the club’s origin quote |
 | `reva_awards.exe` | The 21st Annual Reva Awards | Full ceremony with a photo per award, People’s Choice gallery, Hall of Fame, closing, hidden category |
