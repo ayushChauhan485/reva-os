@@ -27,7 +27,7 @@ V1 is preserved as git tag `v1` (commit `3e19ba1`). V2 is on branch `v2`.
   - the date-award photo replaced, and two dictionary overstatements fixed.
 - **Context restored:** the 19 Sep and 28 Jul conversations are shown in order with `· · ·` gap markers. The 18 Jun thread opens with "looking like a lilyy today".
 - **New, verified:** the 27th Club origin. On 30 Jul, Reva notices the first-date date repeating ("…repeat hori hai bhindu" / "27") and corrects the lake to "Saturday tha 27".
-- **P12** is now shown unedited (upright). The crop that removed a background person is kept as an unapproved derivative.
+- **P12** is shown unedited (upright only), by Ruru’s decision. The crop that removed a background person is recorded but never shown.
 
 ## Photographs
 

@@ -50,7 +50,7 @@ Every personal claim shown in V1 was rechecked against the sources below. The ma
 |---|---|---|---|
 | P15 = “Lake day, the morning edition” (archive, calendar 27 Jun, 27th Club) | **Corrected** | P15 shows a pickleball court. It is now “On the court”, **unassigned**: no date, no event, no lake caption. The 27 June entries show an empty-photo state | Visual review; media-index “PLAUSIBLE” only |
 | P12, P13, P14 = 6 May bowling day | Confirmed | Shown in the 6 May memory, the Bowling Night album, Little Beginnings and the 27th Club calendar (6 May) | Camera stamp “06/05”, the dress chosen that morning, bowling lanes in P14, media-index; confirmed by Ruru |
-| P12 shown cropped (a person and the camera stamp removed) | **Corrected** | Now shown **unedited** (rotated upright only). The crop is kept as a separate derivative, `approved: false`, until you approve removing a person | `scripts/asset-sources.json` |
+| P12 shown cropped (a person and the camera stamp removed) | **Corrected** | Now shown **unedited** (rotated upright only). Ruru decided on 05.11.2026 to keep it that way; the crop stays recorded but is never shown | `scripts/asset-sources.json` |
 | P13, P14 cropped | Kept, recorded | Only the bottom strip with the wrong date stamp (“06/05/2016”) is removed. The unedited version is one click away in the viewer | `asset-sources.json` |
 | P04 (rooftop) possibly 6 May | Uncertain | Shown undated and unassigned | media-index “PLAUSIBLE” (dress only) |
 | Award “Best Definition of a Date” illustrated with P14 (a 6 May photo) for a 30 May quote | **Corrected** | Replaced with an undated portrait (P09) so no date is implied | — |

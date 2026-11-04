@@ -81,8 +81,7 @@ Everything personal lives in `src/data/`:
 1. **The letter**: `src/data/letter.ts` → `paragraphs`.
 2. **Ruru’s Special Recognition dedication**: `src/data/awards.ts` → `specialRecognition.dedication` (photo: `specialRecognition.image`). The award is hidden in production until this is filled.
 3. **White Memoir photo**: there is none in the project; it shows a placeholder.
-4. **Approve or reject the P12 edit**: it removes a background person and the camera stamp. Set `approved: true` in `scripts/asset-sources.json` and re-run `npm run assets` to show it.
-5. **Optional**: P06 and P21 are allow-listed but flagged “check with Ayush”. The Wishes shortlist (62 photos) hasn’t been reviewed for this site.
+4. **Optional**: P06 and P21 are allow-listed but flagged “check with Ayush”. The Wishes shortlist (62 photos) hasn’t been reviewed for this site.
 
 ## Privacy and deployment
 

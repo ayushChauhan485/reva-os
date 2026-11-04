@@ -20,7 +20,7 @@ const albumName = (id) => albums.find((a) => a.id === id)?.title ?? id;
 const rows = photoLibrary.map((p) => {
   const s = src.photos[p.id];
   const d = photoDims[p.id];
-  const edit = d?.edit ? `${d.edit.approved ? 'shown' : '**awaiting approval**'}: removes ${d.edit.removes}` : '—';
+  const edit = d?.edit ? `${d.edit.approved ? 'shown' : 'not shown (kept unedited)'}: removes ${d.edit.removes}` : '—';
   const orientNote = s?.rotate ? `${orient(p)} (rotated ${s.rotate}°)` : orient(p);
   return `| ${p.id} | ${p.title} | ${p.kind === 'video-still' ? 'video still' : 'photo'} | ${date(p)} | ${p.eventAssociation} | ${p.albumIds.map(albumName).join(', ')}${p.eventAssociation === 'unassigned' ? ', Unsorted' : ''} | ${orientNote} | ${edit} | ${[p.private ? 'private' : '', p.secret ? `secret (${p.secret})` : ''].filter(Boolean).join(', ') || '—'} |`;
 });

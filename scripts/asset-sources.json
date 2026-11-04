@@ -19,7 +19,7 @@
       "out": "p12",
       "rotate": 270,
       "rotateWhy": "the file is stored sideways; rotation is orientation correction only",
-      "derivative": { "crop": { "left": 322, "top": 380, "width": 878, "height": 1220 }, "removes": "a person in the background (left) and the camera date stamp '06/05/2016' (top right)", "approved": false }
+      "derivative": { "crop": { "left": 322, "top": 380, "width": 878, "height": 1220 }, "removes": "a person in the background (left) and the camera date stamp '06/05/2016' (top right)", "approved": false, "decision": "Ruru, 05.11.2026: keep P12 unedited; this crop is not shown" }
     },
     "P13": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.32.jpeg",
