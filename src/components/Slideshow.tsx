@@ -33,11 +33,10 @@ function order(xs: PhotoAsset[], o: Order) {
 
 export function Slideshow() {
   const s = useUI((st) => st.slideshow);
-  return <AnimatePresence>{s && <Inner key="ss" />}</AnimatePresence>;
+  return <AnimatePresence>{s && <Inner key="ss" s={s} />}</AnimatePresence>;
 }
 
-function Inner() {
-  const s = useUI((st) => st.slideshow)!;
+function Inner({ s }: { s: NonNullable<ReturnType<typeof useUI.getState>['slideshow']> }) {
   const [source, setSource] = useState(s.source);
   const [ord, setOrd] = useState<Order>('library');
   const [playing, setPlaying] = useState(true);

@@ -29,7 +29,7 @@ export const dictionary: DictionaryEntry[] = [
     partOfSpeech: 'n., nightly',
     category: 'only-ruru',
     quote: { kind: 'chat', id: 'm-2904-puffer' },
-    definition: 'A transmission sent at the end of the day, usually carrying one pufferfish. First recorded 29.04.2026, 02:23. Spelling: with two t’s, always.',
+    definition: 'A transmission sent at the end of the day, usually carrying one pufferfish. First recorded 29.04.2026, 02:23, spelled with two t’s.',
   },
   {
     id: 'two-din',
@@ -75,7 +75,7 @@ export const dictionary: DictionaryEntry[] = [
     category: 'logic',
     quote: { kind: 'chat', id: 'm-1909-poppy' },
     context: ['m-1909-notfav'],
-    definition: 'A counter-proposal, filed moments after being compared to a tiger lily. The Logic Department found it sound.',
+    definition: 'A counter-proposal, filed one minute after the tiger lily was turned down. The Logic Department found it sound.',
   },
   {
     id: 'about-me',

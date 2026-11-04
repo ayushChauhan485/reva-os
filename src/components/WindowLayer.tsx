@@ -3,6 +3,7 @@ import { lazy, Suspense, type ComponentType } from 'react';
 import type { AppId } from '../data/apps';
 import { useDesktop } from '../store/desktopStore';
 import { Window } from './Window';
+import { ErrorBoundary } from './ErrorBoundary';
 
 // Each app is its own chunk, loaded the first time it opens.
 const registry: Record<AppId, ComponentType> = {
@@ -32,9 +33,11 @@ export function WindowLayer() {
           const App = registry[w.id];
           return (
             <Window key={`${w.id}-${w.session}`} win={w} focused={focused === w.id} variant={variants[w.id]}>
-              <Suspense fallback={<div className="app-loading">loading {w.id}…</div>}>
-                <App />
-              </Suspense>
+              <ErrorBoundary label={w.id}>
+                <Suspense fallback={<div className="app-loading">loading {w.id}…</div>}>
+                  <App />
+                </Suspense>
+              </ErrorBoundary>
             </Window>
           );
         })}

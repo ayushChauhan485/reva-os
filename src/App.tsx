@@ -6,6 +6,7 @@ import { Dock } from './components/Dock';
 import { MenuBar } from './components/MenuBar';
 import { NotificationScheduler, Screensaver, Toasts, WanderingPufferfish } from './components/Overlays';
 import { PhotoViewer } from './components/PhotoViewer';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import { Slideshow } from './components/Slideshow';
 import { WindowLayer } from './components/WindowLayer';
 import { useMediaQuery } from './lib/hooks';
@@ -42,8 +43,12 @@ export default function App() {
           <Dock />
           <WanderingPufferfish />
           <Toasts />
-          <PhotoViewer />
-          <Slideshow />
+          <ErrorBoundary label="Photo viewer" onReset={() => useUI.getState().closeViewer()}>
+            <PhotoViewer />
+          </ErrorBoundary>
+          <ErrorBoundary label="Slideshow" onReset={() => useUI.getState().closeSlideshow()}>
+            <Slideshow />
+          </ErrorBoundary>
           <Screensaver />
           <NotificationScheduler />
         </>

@@ -102,7 +102,7 @@ export function albumNames(p: PhotoAsset) {
 }
 
 /** Deterministic "photo of the day": same photo all day, changes at midnight. */
-export function photoOfTheDay(pool = viewablePhotos().filter((p) => p.kind === 'photo')) {
+export function photoOfTheDay(pool = viewablePhotos().filter((p) => p.kind === 'photo' && (p.people === 'reva' || p.people === 'both'))) {
   const d = new Date();
   const n = d.getFullYear() * 400 + d.getMonth() * 32 + d.getDate();
   return pool.length ? pool[(n * 7919) % pool.length] : undefined;

@@ -1882,3 +1882,16 @@ button.mcard:hover {
     overflow: visible;
   }
 }
+
+.crash {
+  height: 100%;
+  min-height: 120px;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  padding: 20px;
+  text-align: center;
+  background: var(--paper);
+  color: var(--ink);
+}

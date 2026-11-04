@@ -5,7 +5,7 @@ import { ChatThread, HiddenPuffer, Img, openPhotos } from '../../components/comm
 import { dateLabel, getPhoto, photoSrc, viewablePhotos } from '../../lib/photos';
 import { msg } from '../../data/curatedContent';
 import { archiveIntro, dotDate, memories, memoryById, months } from '../../data/memories';
-import type { Memory } from '../../data/types';
+import { GAP, type Memory } from '../../data/types';
 import { useIsTouch } from '../../lib/hooks';
 import { play } from '../../lib/sound';
 import { useDesktop } from '../../store/desktopStore';
@@ -50,7 +50,7 @@ export default function Archive() {
     const q = query.trim().toLowerCase();
     if (!q) return null;
     return memories.filter((m) => {
-      const hay = [m.title, m.folderName, dotDate(m.date), m.place ?? '', ...m.tags, ...m.intro, ...(m.messages ?? []).map((id) => msg(id).text)]
+      const hay = [m.title, m.folderName, dotDate(m.date), m.place ?? '', ...m.tags, ...m.intro, ...(m.messages ?? []).filter((id) => id !== GAP).map((id) => msg(id).text)]
         .join(' ')
         .toLowerCase();
       return hay.includes(q);

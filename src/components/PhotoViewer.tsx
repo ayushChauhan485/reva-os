@@ -24,11 +24,11 @@ const MODES: { id: WallpaperMode; label: string }[] = [
 
 export function PhotoViewer() {
   const v = useUI((s) => s.viewer);
-  return <AnimatePresence>{v && <ViewerInner key="viewer" />}</AnimatePresence>;
+  // the exiting viewer keeps its last props, so it can animate out safely
+  return <AnimatePresence>{v && <ViewerInner key="viewer" v={v} />}</AnimatePresence>;
 }
 
-function ViewerInner() {
-  const v = useUI((s) => s.viewer)!;
+function ViewerInner({ v }: { v: NonNullable<ReturnType<typeof useUI.getState>['viewer']> }) {
   const p = getPhoto(v.ids[v.index]);
   const [zoom, setZoom] = useState(1);
   const [pan, setPan] = useState({ x: 0, y: 0 });
@@ -63,7 +63,10 @@ function ViewerInner() {
       if (e.key === 'ArrowLeft') go(-1);
       if (e.key === '+' || e.key === '=') setZoom((z) => Math.min(4, z + 0.5));
       if (e.key === '-') setZoom((z) => Math.max(1, z - 0.5));
-      if (e.key === '0') (setZoom(1), setPan({ x: 0, y: 0 }));
+      if (e.key === '0') {
+        setZoom(1);
+        setPan({ x: 0, y: 0 });
+      }
       if (e.key.toLowerCase() === 'i') setInfo((x) => !x);
       if (e.key.toLowerCase() === 'f') toggleFav();
     };
@@ -267,7 +270,7 @@ function ViewerInner() {
               <dt>Albums</dt>
               <dd>{albumNames(p).join(', ')}</dd>
               <dt>Type</dt>
-              <dd>{p.kind === 'video-still' ? 'still frame from a video' : 'photograph'} · {size.w}×{size.h}</dd>
+              <dd>{p.kind === 'video-still' ? 'still frame from a video' : 'photograph'} · original {size.w}×{size.h}</dd>
               {p.tags.length > 0 && (
                 <>
                   <dt>Tags</dt>
