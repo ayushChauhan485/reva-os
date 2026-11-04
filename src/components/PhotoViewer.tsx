@@ -16,10 +16,9 @@ import { useUI } from '../store/uiStore';
 import { useIsPhone } from '../lib/hooks';
 
 const MODES: { id: WallpaperMode; label: string }[] = [
-  { id: 'fill', label: 'Fill' },
   { id: 'fit', label: 'Fit' },
   { id: 'centre', label: 'Centre' },
-  { id: 'blur', label: 'Blurred' },
+  { id: 'plain', label: 'Plain' },
 ];
 
 export function PhotoViewer() {
@@ -248,7 +247,7 @@ function ViewerInner({ v }: { v: NonNullable<ReturnType<typeof useUI.getState>['
             if (!q) return null;
             return (
               <button key={id} className={`viewer__thumb ${i === v.index ? 'is-on' : ''}`} onClick={() => useUI.getState().setViewerIndex(i)} aria-label={q.title}>
-                <img src={photoSrc(q, { thumb: true }) ?? ''} alt="" loading="lazy" />
+                <img className="photo" src={photoSrc(q, { thumb: true }) ?? ''} alt="" loading="lazy" />
               </button>
             );
           })}

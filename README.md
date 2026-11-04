@@ -50,7 +50,11 @@ The scripts look for the export at `../../Birthday/WhatsApp Chat with Revaa.txt`
 
 The shared photo viewer is used everywhere. It offers zoom and pan, fit, full screen, favourite, an info panel, original/edited, memory connections, set as wallpaper, a filmstrip, swipe and keys.
 
-On the desktop: Photo of the Day, a random polaroid, recently viewed photos, and photo wallpapers (fill / fit / centre / blurred). The screensaver is photographic (polaroid / filmstrip / drift), and you choose its source in Settings.
+On the desktop: Photo of the Day, a random polaroid, recently viewed photos, and photo wallpapers (fit / centre / plain; never cropped). The screensaver is photographic (polaroid / filmstrip / drift), and you choose its source in Settings.
+
+## The photo rule
+
+Photos are always shown complete: resized, never cropped, zoomed or stretched. Fixed frames letterbox the photo on a neutral mat (`--photo-mat`). Use the shared `Img` component, or give a raw `<img>` the `photo` class. `npm run verify-facts` fails if a stylesheet or component reintroduces cropping.
 
 ## Editing content
 

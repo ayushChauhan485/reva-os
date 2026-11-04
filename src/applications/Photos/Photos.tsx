@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { ChatBubble } from '../../components/common';
 import { albums, missingPhotos, type AlbumId } from '../../data/photoLibrary';
 import { dotDate, memoryById } from '../../data/memories';
-import { albumCover, albumNames, albumPhotos, dateLabel, isDeveloped, orientation, photoSize, photoSrc, remindRandom, trustedDate, viewablePhotos, visibleAlbums, visiblePhotos, type PhotoAsset } from '../../lib/photos';
+import { albumCover, albumNames, isRecent, albumPhotos, dateLabel, isDeveloped, orientation, photoSize, photoSrc, remindRandom, trustedDate, viewablePhotos, visibleAlbums, visiblePhotos, type PhotoAsset } from '../../lib/photos';
 import { useIsPhone } from '../../lib/hooks';
 import { play } from '../../lib/sound';
 import { useDesktop } from '../../store/desktopStore';
@@ -57,7 +57,7 @@ export default function Photos() {
       case 'favourites':
         return visiblePhotos().filter((p) => favs.includes(p.id));
       case 'recent':
-        return visiblePhotos().filter((p) => p.added === 'v2');
+        return visiblePhotos().filter((p) => isRecent(p));
       case 'album':
         return albumPhotos(section.id);
       default:
@@ -78,7 +78,7 @@ export default function Photos() {
         if (f === 'favourites' && !favs.includes(p.id)) return false;
         if (f === 'portrait' && orientation(p) !== 'portrait') return false;
         if (f === 'landscape' && orientation(p) !== 'landscape') return false;
-        if (f === 'recent' && p.added !== 'v2') return false;
+        if (f === 'recent' && !isRecent(p)) return false;
         if (f === 'dated' && !trustedDate(p)) return false;
         if (f === 'undated' && p.dateStatus !== 'unknown') return false;
         if (f === 'unassigned' && p.eventAssociation !== 'unassigned') return false;
@@ -130,7 +130,7 @@ export default function Photos() {
         <SideBtn on={section.kind === 'favourites'} onClick={() => go({ kind: 'favourites' })} count={favs.length}>
           ♥ Favourites
         </SideBtn>
-        <SideBtn on={section.kind === 'recent'} onClick={() => go({ kind: 'recent' })} count={visiblePhotos().filter((p) => p.added === 'v2').length}>
+        <SideBtn on={section.kind === 'recent'} onClick={() => go({ kind: 'recent' })} count={visiblePhotos().filter((p) => isRecent(p)).length}>
           ✦ Recently added
         </SideBtn>
         <div className="tag" style={{ marginTop: 12 }}>
@@ -294,7 +294,7 @@ function Tile({ p, selected, onOpen, natural }: { p: PhotoAsset; selected: boole
   return (
     <div className={`ptile ${selected ? 'is-sel' : ''} ${natural ? 'ptile--natural' : ''}`}>
       <button className="ptile__btn" onClick={() => onOpen(p)} aria-label={`${p.title}, ${date.text}`}>
-        <img src={photoSrc(p, { thumb: true }) ?? ''} alt={p.description ?? p.title} loading="lazy" decoding="async" width={size.w} height={size.h} style={{ objectPosition: p.focus }} />
+        <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt={p.description ?? p.title} loading="lazy" decoding="async" width={size.w} height={size.h} />
         <span className="ptile__cap">
           <b>{p.title}</b>
           <i className={`date date--${date.kind}`}>{date.text}</i>
@@ -325,7 +325,7 @@ function Filmstrip({ list, selected, setSelected, onOpen }: { list: PhotoAsset[]
     <div className="film">
       <div className="film__preview">
         <button className="img-btn" onClick={() => onOpen(cur)} aria-label={`Open ${cur.title}`}>
-          <img src={photoSrc(cur) ?? ''} alt={cur.description ?? cur.title} />
+          <img className="photo" src={photoSrc(cur) ?? ''} alt={cur.description ?? cur.title} />
         </button>
         <div className="film__cap">
           <b>{cur.title}</b> <span className="mono">{dateLabel(cur).text}</span>
@@ -342,7 +342,7 @@ function Filmstrip({ list, selected, setSelected, onOpen }: { list: PhotoAsset[]
       <div className="film__strip scroll" role="listbox" aria-label="Filmstrip">
         {dev.map((p, n) => (
           <button key={p.id} role="option" aria-selected={p.id === cur.id} className={`film__frame ${p.id === cur.id ? 'is-on' : ''}`} onClick={() => setSelected(p.id)} onDoubleClick={() => onOpen(p)}>
-            <img src={photoSrc(p, { thumb: true }) ?? ''} alt={p.title} loading="lazy" style={{ objectPosition: p.focus }} />
+            <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt={p.title} loading="lazy" />
             <span className="mono">{String(n + 1).padStart(2, '0')}</span>
           </button>
         ))}
@@ -354,7 +354,8 @@ function Filmstrip({ list, selected, setSelected, onOpen }: { list: PhotoAsset[]
 function Timeline({ list, selected, onOpen }: { list: PhotoAsset[]; selected: string | null; onOpen: (p: PhotoAsset) => void }) {
   const dated = list.filter((p) => trustedDate(p)).sort((a, b) => trustedDate(a)!.localeCompare(trustedDate(b)!));
   const byFile = list.filter((p) => !trustedDate(p) && p.fileDate).sort((a, b) => a.fileDate!.localeCompare(b.fileDate!));
-  const undated = list.filter((p) => !trustedDate(p) && !p.fileDate);
+  const provisional = list.filter((p) => !trustedDate(p) && p.eventAssociation === 'provisional' && p.eventDate).sort((a, b) => a.eventDate!.localeCompare(b.eventDate!));
+  const undated = list.filter((p) => !trustedDate(p) && !p.fileDate && !(p.eventAssociation === 'provisional' && p.eventDate));
   const groups = (xs: PhotoAsset[], key: (p: PhotoAsset) => string) => {
     const m = new Map<string, PhotoAsset[]>();
     xs.forEach((p) => m.set(key(p), [...(m.get(key(p)) ?? []), p]));
@@ -388,6 +389,21 @@ function Timeline({ list, selected, onOpen }: { list: PhotoAsset[]; selected: st
           ))}
         </>
       )}
+      {provisional.length > 0 && (
+        <>
+          <h4 className="tline__lane">Provisional (date read from the photos, not confirmed)</h4>
+          {groups(provisional, (p) => p.eventDate!).map(([d, ps]) => (
+            <section key={d} className="tline__day tline__day--approx">
+              <div className="tline__date mono">{dotDate(d)}?</div>
+              <div className="tline__row">
+                {ps.map((p) => (
+                  <Tile key={p.id} p={p} selected={selected === p.id} onOpen={onOpen} />
+                ))}
+              </div>
+            </section>
+          ))}
+        </>
+      )}
       {undated.length > 0 && <p className="tline__undated">{undated.length} undated photograph{undated.length === 1 ? '' : 's'} not placed on the timeline.</p>}
     </div>
   );
@@ -403,7 +419,7 @@ function CollectionHeader({ section, count }: { section: Section; count: number 
       : section.kind === 'favourites'
         ? 'Saved on this device.'
         : section.kind === 'recent'
-          ? 'New in this edition of REVA.EXE.'
+          ? 'The newest photographs in the library.'
           : album?.blurb;
   return (
     <header className="phead">
@@ -462,7 +478,7 @@ function Home({ go }: { go: (s: Section) => void }) {
   const favs = useProgress((s) => s.photoFavourites);
   const all = visiblePhotos();
   const unsorted = albumPhotos('unsorted').length;
-  const recent = all.filter((p) => p.added === 'v2').length;
+  const recent = all.filter((p) => isRecent(p)).length;
   const today = new Date();
   const md = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const onThisDay = viewablePhotos().filter((p) => trustedDate(p)?.slice(5) === md);
@@ -510,7 +526,7 @@ function Home({ go }: { go: (s: Section) => void }) {
           <div className="phome__otd-row">
             {onThisDay.map((p) => (
               <button key={p.id} className="img-btn" onClick={() => useUI.getState().openViewer(onThisDay.map((x) => x.id), onThisDay.indexOf(p))}>
-                <img src={photoSrc(p, { thumb: true }) ?? ''} alt={p.title} />
+                <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt={p.title} />
               </button>
             ))}
           </div>
@@ -527,7 +543,7 @@ function Home({ go }: { go: (s: Section) => void }) {
             <motion.button key={a.id} className={`cover cover--${i % 3}`} onClick={() => go({ kind: 'album', id: a.id })} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}>
               <span className="cover__img">
                 {cover ? (
-                  <img src={photoSrc(cover, { thumb: true }) ?? ''} alt="" loading="lazy" style={{ objectPosition: cover.focus }} />
+                  <img className="photo" src={photoSrc(cover, { thumb: true }) ?? ''} alt="" loading="lazy" />
                 ) : (
                   <span className="cover__empty mono">
                     {a.memoryCards?.map((id) => dotDate(memoryById(id)!.date).slice(0, 5)).join(' · ')}

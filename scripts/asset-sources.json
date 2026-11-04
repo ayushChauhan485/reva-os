@@ -41,7 +41,8 @@
           "height": 1000
         },
         "removes": "bottom strip with the camera date stamp '01/01/2007' (camera clock reset, not a real date)",
-        "approved": true
+        "approved": false,
+        "decision": "05.11.2026: complete originals are shown everywhere (no cropping); this edit is recorded but not shown"
       }
     },
     "P12": {
@@ -72,7 +73,8 @@
           "height": 1000
         },
         "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
-        "approved": true
+        "approved": false,
+        "decision": "05.11.2026: complete originals are shown everywhere (no cropping); this edit is recorded but not shown"
       }
     },
     "P14": {
@@ -86,7 +88,8 @@
           "height": 1000
         },
         "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
-        "approved": true
+        "approved": false,
+        "decision": "05.11.2026: complete originals are shown everywhere (no cropping); this edit is recorded but not shown"
       }
     },
     "P15": {
@@ -124,6 +127,66 @@
     "P32": {
       "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.57.jpeg",
       "out": "p32"
+    },
+    "N01": {
+      "src": "../4 nov/WhatsApp Image 2026-10-06 at 14.11.55.jpeg",
+      "out": "n01",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N02": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.47.jpeg",
+      "out": "n02",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N03": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.51.jpeg",
+      "out": "n03",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N04": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.52.jpeg",
+      "out": "n04",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N05": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.54.jpeg",
+      "out": "n05",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N06": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.55.jpeg",
+      "out": "n06",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N07": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.28.59.jpeg",
+      "out": "n07",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N08": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.29.00.jpeg",
+      "out": "n08",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N09": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.29.01.jpeg",
+      "out": "n09",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N10": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.29.02.jpeg",
+      "out": "n10",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N11": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.29.03.jpeg",
+      "out": "n11",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
+    },
+    "N12": {
+      "src": "../4 nov/WhatsApp Image 2026-11-05 at 00.29.04.jpeg",
+      "out": "n12",
+      "imported": "05.11.2026 from the project parent folder (added by Ruru)"
     }
   },
   "excluded": {
@@ -239,5 +302,6 @@
       "heic": true,
       "reason": "Handmade bouquet photo; removed at Ruru's request (05.11.2026)."
     }
-  }
+  },
+  "_duplicates": "05.11.2026 import: 31 files in '4 nov/' named 'WhatsApp Image 2026-10-06 at 14.11.*' are byte-identical to P01–P32 in Birthday/Videos and were not imported again. '14.11.55' shares P30's file name but is a different image (now N01). The 6 'WhatsApp Video 2026-10-06…' files are videos (V01–V06), not photos."
 }

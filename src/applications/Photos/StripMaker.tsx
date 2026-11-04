@@ -24,15 +24,14 @@ function loadImage(src: string) {
   });
 }
 
-/** draws `img` covering the box, centred on focus (like object-fit: cover) */
-function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number, focus = '50% 50%') {
-  const [fx, fy] = focus.split(' ').map((v) => parseFloat(v) / 100);
-  const scale = Math.max(w / img.width, h / img.height);
-  const sw = w / scale;
-  const sh = h / scale;
-  const sx = Math.min(img.width - sw, Math.max(0, img.width * fx - sw / 2));
-  const sy = Math.min(img.height - sh, Math.max(0, img.height * fy - sh / 2));
-  ctx.drawImage(img, sx, sy, sw, sh, x, y, w, h);
+/** draws the whole `img` inside the box on a mat (like object-fit: contain): nothing is cropped */
+function drawContain(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number, mat: string) {
+  ctx.fillStyle = mat;
+  ctx.fillRect(x, y, w, h);
+  const scale = Math.min(w / img.width, h / img.height);
+  const dw = img.width * scale;
+  const dh = img.height * scale;
+  ctx.drawImage(img, x + (w - dw) / 2, y + (h - dh) / 2, dw, dh);
 }
 
 export function StripMaker() {
@@ -84,7 +83,7 @@ export function StripMaker() {
         try {
           const img = await loadImage(photoSrc(p)!);
           if (cancelled) return;
-          drawCover(ctx, img, PAD, y, FRAME_W, FRAME_H, p.focus);
+          drawContain(ctx, img, PAD, y, FRAME_W, FRAME_H, theme === 'dark' ? '#2b2a36' : '#e6ddcc');
         } catch {
           /* missing file: leave the frame empty */
         }
@@ -172,7 +171,7 @@ export function StripMaker() {
               const i = picked.indexOf(p.id);
               return (
                 <button key={p.id} className={`strip__pick ${i >= 0 ? 'is-on' : ''}`} onClick={() => toggle(p.id)} aria-pressed={i >= 0} aria-label={`${i >= 0 ? 'Remove' : 'Add'} ${p.title}`} disabled={i < 0 && picked.length >= 4}>
-                  <img src={photoSrc(p, { thumb: true }) ?? ''} alt="" loading="lazy" style={{ objectPosition: p.focus }} />
+                  <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt="" loading="lazy" />
                   {i >= 0 && <span className="strip__num">{i + 1}</span>}
                 </button>
               );

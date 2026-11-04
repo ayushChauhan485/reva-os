@@ -188,7 +188,7 @@ export default function FindGame() {
           {/* photograph leaning on the desk */}
           <g data-item>
             {R(112, 112, 13, 15, '#ffffff')}
-            {p20src ? <image href={p20src} x={113} y={113} width={11} height={11} preserveAspectRatio="xMidYMid slice" /> : R(113, 113, 11, 11, '#afc5db')}
+            {p20src ? <image href={p20src} x={113} y={113} width={11} height={11} preserveAspectRatio="xMidYMid meet" /> : R(113, 113, 11, 11, '#afc5db')}
           </g>
           {/* folded message peeking out from under the rug */}
           <g data-item>

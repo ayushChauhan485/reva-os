@@ -42,7 +42,7 @@
       "w": 1600,
       "h": 1000,
       "removes": "bottom strip with the camera date stamp '01/01/2007' (camera clock reset, not a real date)",
-      "approved": true
+      "approved": false
     }
   },
   "P12": {
@@ -64,7 +64,7 @@
       "w": 1600,
       "h": 1000,
       "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
-      "approved": true
+      "approved": false
     }
   },
   "P14": {
@@ -75,7 +75,7 @@
       "w": 1600,
       "h": 1000,
       "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
-      "approved": true
+      "approved": false
     }
   },
   "P15": {
@@ -122,5 +122,65 @@
     "file": "p32",
     "w": 1280,
     "h": 960
+  },
+  "N01": {
+    "file": "n01",
+    "w": 1600,
+    "h": 900
+  },
+  "N02": {
+    "file": "n02",
+    "w": 899,
+    "h": 1599
+  },
+  "N03": {
+    "file": "n03",
+    "w": 960,
+    "h": 1280
+  },
+  "N04": {
+    "file": "n04",
+    "w": 960,
+    "h": 1280
+  },
+  "N05": {
+    "file": "n05",
+    "w": 1280,
+    "h": 960
+  },
+  "N06": {
+    "file": "n06",
+    "w": 960,
+    "h": 1280
+  },
+  "N07": {
+    "file": "n07",
+    "w": 725,
+    "h": 1600
+  },
+  "N08": {
+    "file": "n08",
+    "w": 960,
+    "h": 1280
+  },
+  "N09": {
+    "file": "n09",
+    "w": 960,
+    "h": 1280
+  },
+  "N10": {
+    "file": "n10",
+    "w": 960,
+    "h": 1280
+  },
+  "N11": {
+    "file": "n11",
+    "w": 579,
+    "h": 772
+  },
+  "N12": {
+    "file": "n12",
+    "w": 900,
+    "h": 1600
   }
 }

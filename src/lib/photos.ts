@@ -81,9 +81,10 @@ export function albumCover(id: AlbumId) {
 const dot = (iso: string) => iso.split('-').reverse().join('.');
 
 /** Human date line. Never presents a file date as a capture date. */
-export function dateLabel(p: PhotoAsset): { text: string; kind: 'verified' | 'event' | 'file' | 'unknown' } {
+export function dateLabel(p: PhotoAsset): { text: string; kind: 'verified' | 'event' | 'provisional' | 'file' | 'unknown' } {
   if (p.verifiedDate) return { text: dot(p.verifiedDate), kind: 'verified' };
   if (p.eventDate && p.eventAssociation === 'confirmed') return { text: dot(p.eventDate), kind: 'event' };
+  if (p.eventDate && p.eventAssociation === 'provisional') return { text: `${dot(p.eventDate)} · provisional`, kind: 'provisional' };
   if (p.fileDate) return { text: `≈ ${dot(p.fileDate)} · dated by file`, kind: 'file' };
   return { text: 'Undated', kind: 'unknown' };
 }
@@ -98,6 +99,7 @@ export function trustedDate(p: PhotoAsset) {
 export function albumNames(p: PhotoAsset) {
   const names = p.albumIds.map((a) => albums.find((x) => x.id === a)?.title).filter(Boolean) as string[];
   if (p.eventAssociation === 'unassigned') names.push('Unsorted / Undated');
+  if (p.eventAssociation === 'provisional') names.push('(provisional)');
   return names;
 }
 
@@ -107,6 +109,10 @@ export function photoOfTheDay(pool = viewablePhotos().filter((p) => p.kind === '
   const n = d.getFullYear() * 400 + d.getMonth() * 32 + d.getDate();
   return pool.length ? pool[(n * 7919) % pool.length] : undefined;
 }
+
+/** The most recent import is what “Recently added” shows. */
+export const LATEST_IMPORT = 'v2.1';
+export const isRecent = (p: PhotoAsset) => p.added === LATEST_IMPORT;
 
 export function randomPhoto(exclude?: string) {
   const pool = viewablePhotos().filter((p) => p.id !== exclude);

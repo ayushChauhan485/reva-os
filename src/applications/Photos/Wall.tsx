@@ -75,13 +75,13 @@ export function Wall({ fullscreenOnly }: { fullscreenOnly?: boolean }) {
               onClick={() => open(p.id)}
               aria-label={`Open ${p.title}`}
             >
-              <img
+              <img className="photo"
                 src={photoSrc(p, { thumb: true }) ?? ''}
                 alt={p.title}
                 loading="lazy"
                 width={s.w}
                 height={s.h}
-                style={layout === 'neat' ? { aspectRatio: '1', objectFit: 'cover', objectPosition: p.focus } : undefined}
+                style={layout === 'neat' ? { aspectRatio: '1' } : undefined}
               />
               {layout === 'organic' && <span className="wall__label">{p.title}</span>}
             </button>

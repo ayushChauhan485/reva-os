@@ -4,7 +4,8 @@
   color: var(--leaf);
 }
 
-.date--file {
+.date--file,
+.date--provisional {
   color: var(--powder-deep);
 }
 
@@ -136,8 +137,11 @@
 .viewer__stage {
   position: relative;
   min-height: 0;
-  display: grid;
-  place-items: center;
+  /* flex (not grid) so the image's max-height: 100% resolves against a
+     definite height: the whole photo always fits the stage */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
   padding: 0 64px;
 }
@@ -147,6 +151,9 @@
   max-height: 100%;
   width: auto;
   height: auto;
+  min-width: 0;
+  min-height: 0;
+  flex: none;
   object-fit: contain;
   border-radius: 3px;
   box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
@@ -294,7 +301,7 @@
 .viewer__thumb img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .viewer__thumb.is-on {
@@ -696,7 +703,7 @@
 .phome__otd-row img {
   width: 72px;
   height: 72px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
 }
 
@@ -734,7 +741,7 @@
 .cover__img img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .cover__empty {
@@ -889,12 +896,12 @@ button.mcard:hover {
 .ptile img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   transition: transform 300ms var(--ease-out);
 }
 
 .ptile:hover img {
-  transform: scale(1.04);
+  filter: brightness(1.04);
 }
 
 .ptile__cap {
@@ -992,8 +999,9 @@ button.mcard:hover {
 
 .film__preview .img-btn {
   height: min(52vh, 440px);
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #1d1c25;
   border-radius: 6px;
   overflow: hidden;
@@ -1062,7 +1070,7 @@ button.mcard:hover {
 .film__frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .film__frame span {
@@ -1251,7 +1259,7 @@ button.mcard:hover {
 .strip__pick img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .strip__pick.is-on {
@@ -1343,7 +1351,7 @@ button.mcard:hover {
 .photostrip__frame img {
   width: 190px;
   height: 150px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 2px;
 }
 
@@ -1438,7 +1446,7 @@ button.mcard:hover {
 .plate__handmade img {
   width: 100%;
   max-height: 200px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 3px;
 }
 
@@ -1470,7 +1478,7 @@ button.mcard:hover {
 .plate__timeline li img {
   width: 100%;
   aspect-ratio: 16 / 10;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 3px;
 }
 
@@ -1489,7 +1497,7 @@ button.mcard:hover {
 .citation__gallery img {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 3px;
   border: 2px solid #f3e6c6;
 }
@@ -1504,8 +1512,8 @@ button.mcard:hover {
 .voting__gallery img {
   width: 64px;
   height: 64px;
-  object-fit: cover;
-  border-radius: 50%;
+  object-fit: contain;
+  border-radius: 6px;
   border: 2px solid #e8c46a;
 }
 
@@ -1521,7 +1529,7 @@ button.mcard:hover {
 .dict__randompic img {
   width: 84px;
   height: 84px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 4px;
 }
 
@@ -1553,23 +1561,19 @@ button.mcard:hover {
   filter: blur(30px) saturate(1.1);
 }
 
-.wallpaper--fill .wallpaper__img {
-  background-size: cover;
-}
-
-.wallpaper--fill .wallpaper__blur,
-.wallpaper--blur .wallpaper__img {
-  display: none;
-}
-
-.wallpaper--fit .wallpaper__img {
+.wallpaper--fit .wallpaper__img,
+.wallpaper--plain .wallpaper__img {
   background-size: contain;
-  background-position: center !important;
+  background-position: center;
+}
+
+.wallpaper--plain .wallpaper__blur {
+  display: none;
 }
 
 .wallpaper--centre .wallpaper__img {
   background-size: auto 62%;
-  background-position: center !important;
+  background-position: center;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.45));
 }
 
@@ -1643,7 +1647,7 @@ button.mcard:hover {
 .potd__img img {
   width: 100%;
   aspect-ratio: 4 / 3;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .potd__cap {
@@ -1682,7 +1686,7 @@ button.mcard:hover {
 .recent__item img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 /* ═══════════════ SCREENSAVER STYLES ═══════════════ */
@@ -1711,7 +1715,7 @@ button.mcard:hover {
 .saver__polaroid img {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .saver__polaroid figcaption {
@@ -1784,7 +1788,7 @@ button.mcard:hover {
 .saver__film-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .saver--polaroid .saver__veil,

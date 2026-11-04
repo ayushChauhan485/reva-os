@@ -4,7 +4,8 @@ import { config, type WallpaperId } from '../config';
 import { safeStorage } from '../lib/storage';
 
 export type MotionPref = 'system' | 'reduced' | 'full';
-export type WallpaperMode = 'fill' | 'fit' | 'centre' | 'blur';
+/** No mode crops the photo: fit = whole photo on a blurred surround, centre = smaller, plain = cream surround. */
+export type WallpaperMode = 'fit' | 'centre' | 'plain';
 export type SaverStyle = 'filmstrip' | 'polaroid' | 'drift';
 
 interface SettingsState {
@@ -41,7 +42,19 @@ export const useSettings = create<SettingsState>()(
       saverSound: false,
       set: (patch) => set(patch),
     }),
-    { name: 'revaos.settings', storage: safeStorage },
+    {
+      name: 'revaos.settings',
+      storage: safeStorage,
+      version: 1,
+      // v0 had cropping modes ('fill', 'blur'); both become 'fit'
+      migrate: (state, version) => {
+        const s = state as Partial<SettingsState> & { wallpaperPhoto?: { id: string; mode: string } | null };
+        if (version < 1 && s.wallpaperPhoto && !['fit', 'centre', 'plain'].includes(s.wallpaperPhoto.mode)) {
+          s.wallpaperPhoto = { id: s.wallpaperPhoto.id, mode: 'fit' };
+        }
+        return s as SettingsState;
+      },
+    },
   ),
 );
 

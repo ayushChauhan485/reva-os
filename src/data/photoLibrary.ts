@@ -12,7 +12,7 @@
 // ─────────────────────────────────────────────────────────────────────────────
 import dims from './generated/assetDimensions.json' with { type: 'json' };
 
-export type AlbumId = 'reva' | 'us' | 'beginnings' | 'bowling' | 'club27' | 'flowers' | 'being-reva' | 'unsorted';
+export type AlbumId = 'reva' | 'us' | 'beginnings' | 'bowling' | 'club27' | 'flowers' | 'being-reva' | 'convocation' | 'unsorted';
 
 export interface PhotoAsset {
   id: string;
@@ -24,7 +24,7 @@ export interface PhotoAsset {
   tags: string[];
   /** capture date we can prove (ISO) */
   verifiedDate?: string;
-  /** date of the confirmed event this photo belongs to (ISO) */
+  /** date of the event this photo belongs to (ISO); shown as provisional unless eventAssociation is confirmed */
   eventDate?: string;
   /** date the file was saved/sent; shown as "dated by file" */
   fileDate?: string;
@@ -40,11 +40,9 @@ export interface PhotoAsset {
   private?: boolean;
   /** locked behind an easter egg until "developed" */
   secret?: 'pufferfish' | 'terminal';
-  /** first appeared in V2 */
-  added: 'v1' | 'v2';
+  /** when it joined the library ('v2.1' = imported 05.11.2026) */
+  added: 'v1' | 'v2' | 'v2.1';
   people: 'reva' | 'ruru' | 'both' | 'none';
-  /** where the subject sits, for cover crops (CSS object-position) */
-  focus?: string;
 }
 
 /** Derived from the generated file: width/height and any recorded edit. */
@@ -75,7 +73,6 @@ export const photoLibrary: PhotoAsset[] = [
     kind: 'photo',
     added: 'v1',
     people: 'reva',
-    focus: '50% 30%',
   },
   {
     id: 'P14',
@@ -115,14 +112,14 @@ export const photoLibrary: PhotoAsset[] = [
   },
 
   // ── Reva: undated portraits ────────────────────────────────────────────
-  { id: 'P19', filename: 'p19', title: 'Golden hour salute', description: 'A tree-lined road, late sun.', albumIds: ['reva'], tags: ['portrait', 'golden hour', 'outdoors'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: true, kind: 'photo', added: 'v1', people: 'reva', focus: '50% 40%' },
-  { id: 'P04', filename: 'p04', title: 'City lights', description: 'On a rooftop at night, mid-laugh.', albumIds: ['reva'], tags: ['portrait', 'night', 'laughing'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, factIds: ['photo-p04-date'], kind: 'photo', added: 'v1', people: 'reva', focus: '50% 65%' },
+  { id: 'P19', filename: 'p19', title: 'Golden hour salute', description: 'A tree-lined road, late sun.', albumIds: ['reva'], tags: ['portrait', 'golden hour', 'outdoors'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: true, kind: 'photo', added: 'v1', people: 'reva' },
+  { id: 'P04', filename: 'p04', title: 'City lights', description: 'On a rooftop at night, mid-laugh.', albumIds: ['reva'], tags: ['portrait', 'night', 'laughing'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, factIds: ['photo-p04-date'], kind: 'photo', added: 'v1', people: 'reva' },
   { id: 'P08', filename: 'p08', title: 'At the incubator', description: 'A big smile at a desk in the incubation cell.', albumIds: ['reva'], tags: ['portrait', 'campus', 'smile'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v1', people: 'reva' },
   { id: 'P09', filename: 'p09', title: 'At the incubator, take two', description: 'Same desk, an even bigger smile.', albumIds: ['reva'], tags: ['portrait', 'campus', 'smile'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
-  { id: 'P20', filename: 'p20', title: 'The archivist', description: 'Pulling an old record slip out of the steel almirahs. She always wanted to know what was kept in them.', albumIds: ['reva'], tags: ['portrait', 'campus', 'archive'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: true, factIds: ['almirah'], kind: 'photo', added: 'v1', people: 'reva', focus: '62% 40%' },
-  { id: 'P23', filename: 'p23', title: 'Olive jacket', description: 'Outside an old, weathered building.', albumIds: ['reva'], tags: ['portrait', 'outdoors'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva', focus: '50% 60%' },
-  { id: 'P02', filename: 'p02', title: 'Chin on hand', description: 'At home, in warm lamp light.', albumIds: ['reva'], tags: ['portrait', 'home', 'soft'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva', focus: '62% 45%' },
-  { id: 'P32', filename: 'p32', title: 'Black kurta', description: 'A direct look, at home.', albumIds: ['reva'], tags: ['portrait', 'home'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva', focus: '60% 40%' },
+  { id: 'P20', filename: 'p20', title: 'The archivist', description: 'Pulling an old record slip out of the steel almirahs. She always wanted to know what was kept in them.', albumIds: ['reva'], tags: ['portrait', 'campus', 'archive'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: true, factIds: ['almirah'], kind: 'photo', added: 'v1', people: 'reva' },
+  { id: 'P23', filename: 'p23', title: 'Olive jacket', description: 'Outside an old, weathered building.', albumIds: ['reva'], tags: ['portrait', 'outdoors'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
+  { id: 'P02', filename: 'p02', title: 'Chin on hand', description: 'At home, in warm lamp light.', albumIds: ['reva'], tags: ['portrait', 'home', 'soft'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
+  { id: 'P32', filename: 'p32', title: 'Black kurta', description: 'A direct look, at home.', albumIds: ['reva'], tags: ['portrait', 'home'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
   { id: 'P16', filename: 'p16', title: 'After dark', description: 'A terrace at night, looking away.', albumIds: ['reva'], tags: ['portrait', 'night'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
   { id: 'P01', filename: 'p01', title: 'Mirror, mirror', description: 'A mirror selfie in a blue dress.', albumIds: ['reva', 'being-reva'], tags: ['selfie', 'mirror', 'blue'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2', people: 'reva' },
 
@@ -152,6 +149,21 @@ export const photoLibrary: PhotoAsset[] = [
     added: 'v1',
     people: 'reva',
   },
+
+  // ── Imported 05.11.2026 (added by Ruru to the project folder) ────────────
+  // Captions describe only what is visible. Nothing here is linked to a memory.
+  { id: 'N03', filename: 'n03', title: 'Convocation, with flowers', description: 'In front of the 56th PEC Convocation tent; she’s holding a bouquet.', albumIds: ['convocation', 'us'], tags: ['convocation', 'pec', 'together', 'flowers'], eventDate: '2026-10-24', dateStatus: 'approximate', eventAssociation: 'provisional', isFavourite: false, factIds: ['photo-convocation'], kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N04', filename: 'n04', title: 'Convocation, take two', description: 'Same spot, same bouquet, a different pose.', albumIds: ['convocation', 'us'], tags: ['convocation', 'pec', 'together'], eventDate: '2026-10-24', dateStatus: 'approximate', eventAssociation: 'provisional', isFavourite: false, factIds: ['photo-convocation'], kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N05', filename: 'n05', title: 'Convocation, under the trees', description: 'On the red carpet outside the tent.', albumIds: ['convocation', 'us'], tags: ['convocation', 'pec', 'together'], eventDate: '2026-10-24', dateStatus: 'approximate', eventAssociation: 'provisional', isFavourite: false, factIds: ['photo-convocation'], kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N06', filename: 'n06', title: 'Inside the tent', description: 'Under the red ceiling of the convocation tent.', albumIds: ['convocation', 'us'], tags: ['convocation', 'pec', 'together'], eventDate: '2026-10-24', dateStatus: 'approximate', eventAssociation: 'provisional', isFavourite: false, factIds: ['photo-convocation'], kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N07', filename: 'n07', title: 'The whole banner', description: 'A wide shot in front of the 56th Convocation banner.', albumIds: ['convocation', 'us'], tags: ['convocation', 'pec', 'together'], eventDate: '2026-10-24', dateStatus: 'approximate', eventAssociation: 'provisional', isFavourite: false, factIds: ['photo-convocation'], kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N08', filename: 'n08', title: 'Lights and noise', description: 'A hug in a crowd, under purple lights.', albumIds: ['us'], tags: ['together', 'night', 'crowd'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N09', filename: 'n09', title: 'Outside, at dusk', description: 'Standing together outside a building as the light goes.', albumIds: ['us'], tags: ['together', 'dusk'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N10', filename: 'n10', title: 'Outside, at dusk (again)', description: 'Same place, one frame later.', albumIds: ['us'], tags: ['together', 'dusk'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', private: true, added: 'v2.1', people: 'both' },
+  { id: 'N01', filename: 'n01', title: 'Close-up', description: 'A close selfie, hair everywhere.', albumIds: ['reva'], tags: ['selfie', 'portrait'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2.1', people: 'reva' },
+  { id: 'N12', filename: 'n12', title: 'Night walk', description: 'Standing on an empty road at night.', albumIds: ['reva'], tags: ['portrait', 'night', 'outdoors'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2.1', people: 'reva' },
+  { id: 'N11', filename: 'n11', title: 'Low angle, high attitude', description: 'A pout, from below.', albumIds: ['being-reva'], tags: ['funny', 'selfie', 'pout'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2.1', people: 'reva' },
+  { id: 'N02', filename: 'n02', title: 'Double exposure', description: 'A blurry, doubled selfie.', albumIds: ['being-reva'], tags: ['funny', 'selfie', 'blurry'], dateStatus: 'unknown', eventAssociation: 'unassigned', isFavourite: false, kind: 'photo', added: 'v2.1', people: 'reva' },
 ];
 
 export interface Album {
@@ -195,7 +207,15 @@ export const albums: Album[] = [
     blurb: 'No flower photographs in the library right now. White Memoir’s photo is still to come; the drawings live, labelled, in the Flower Department.',
   },
   { id: 'being-reva', no: '07', title: 'Reva Being Reva', blurb: 'Pouts, sunglasses, and general unimpressedness.', cover: 'P03' },
-  { id: 'unsorted', no: '08', title: 'Unsorted / Undated', blurb: 'Photographs whose date or event isn’t established. Kept honestly unassigned.', cover: 'P15', computed: true },
+  {
+    id: 'convocation',
+    no: '08',
+    title: '56th Convocation',
+    blurb: 'Provisional: identified only by the banner in the photos (PEC, 24 October 2026). Not yet confirmed anywhere else.',
+    cover: 'N03',
+    private: true,
+  },
+  { id: 'unsorted', no: '09', title: 'Unsorted / Undated', blurb: 'Photographs whose date or event isn’t established. Kept honestly unassigned.', cover: 'P15', computed: true },
 ];
 
 /** Placeholders for photos that don't exist yet. */

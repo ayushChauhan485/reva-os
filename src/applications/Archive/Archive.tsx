@@ -219,7 +219,7 @@ function FolderGrid({ items, onOpen, empty }: { items: Item[]; onOpen: (it: Item
             {it.kind === 'folder' && <span className="fgrid__meta">{it.count} items</span>}
             {it.kind === 'memory' && (
               <span className="preview" role="tooltip">
-                {thumb && <img src={thumb} alt="" />}
+                {thumb && <img className="photo" src={thumb} alt="" />}
                 <b>{it.memory.title}</b>
                 <span>{it.memory.intro[0]}</span>
                 <i>{dotDate(it.memory.date)}</i>
@@ -315,7 +315,7 @@ function MemoryView({ memory }: { memory: Memory }) {
             {group.map((p) => (
               <figure key={p.id} className="photostrip__frame">
                 <button className="img-btn" aria-label={`View photo: ${p.title}`} onClick={() => openPhotos(ids, p.id)}>
-                  <img src={photoSrc(p, { thumb: true }) ?? ''} alt={p.description ?? p.title} loading="lazy" style={{ objectPosition: p.focus }} />
+                  <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt={p.description ?? p.title} loading="lazy" />
                 </button>
                 <figcaption>
                   {p.title} <span>{dateLabel(p).text}</span>

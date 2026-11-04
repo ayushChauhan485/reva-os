@@ -49,8 +49,8 @@ export function Img({
       height={size.h}
       loading="lazy"
       decoding="async"
-      className={className}
-      style={{ objectPosition: p.focus, ...style }}
+      className={`photo ${className ?? ''}`}
+      style={style}
       onError={() => setBroken(true)}
       draggable={false}
     />

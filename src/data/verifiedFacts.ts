@@ -289,6 +289,15 @@ export const facts: VerifiedFact[] = [
     dateKind: 'capture',
   },
   {
+    id: 'photo-convocation',
+    claim: 'N03–N07 were taken at PEC’s 56th Convocation on 24 October 2026',
+    value: '2026-10-24 (provisional)',
+    source: 'The convocation banner visible in the photos reads “56th … Convocation · October 24, 2026” (PEC). The chat export ends 02.10.2026, so nothing else confirms it',
+    verificationStatus: 'provisional',
+    dateKind: 'event',
+    notes: 'Shown with a “provisional” label, in its own album; not linked to any memory or calendar entry.',
+  },
+  {
     id: 'photo-p15',
     claim: 'P15 (pickleball court) was taken on the morning of 27 June',
     value: 'Unassigned',

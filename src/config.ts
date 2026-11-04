@@ -15,7 +15,7 @@ export const config = {
   /** Default wallpaper pattern. */
   wallpaper: 'paper' as WallpaperId,
   /** Default photo wallpaper (photo id + mode), or null for the pattern. */
-  wallpaperPhoto: null as null | { id: string; mode: 'fill' | 'fit' | 'centre' | 'blur' },
+  wallpaperPhoto: null as null | { id: string; mode: 'fit' | 'centre' | 'plain' },
   /** Photos of the two of you (album 02 and couple photos elsewhere). Turn off for a public version. */
   showPrivateAlbums: true,
   /** Seconds of inactivity before the screensaver (only when no window is open). */

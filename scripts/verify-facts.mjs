@@ -115,7 +115,9 @@ else fail('P15 is captioned or tagged as the lake');
 for (const p of photoLibrary) {
   if (p.relatedMemoryId && p.eventAssociation !== 'confirmed') fail(`photo ${p.id} links to memory ${p.relatedMemoryId} without a confirmed association`);
   if (p.dateStatus === 'verified' && !p.verifiedDate && !p.eventDate) fail(`photo ${p.id} is "verified" but has no date`);
-  if (p.dateStatus === 'approximate' && (p.verifiedDate || p.eventDate)) fail(`photo ${p.id} mixes an approximate file date with a verified date`);
+  if (p.dateStatus === 'approximate' && p.verifiedDate) fail(`photo ${p.id} mixes an approximate date with a verified capture date`);
+  if (p.dateStatus === 'approximate' && p.eventDate && p.eventAssociation !== 'provisional') fail(`photo ${p.id}: an approximate event date must be labelled provisional`);
+  if (p.eventAssociation === 'confirmed' && p.eventDate && p.dateStatus !== 'verified') fail(`photo ${p.id}: confirmed event but date not verified`);
   if (p.fileDate && p.dateStatus === 'verified') fail(`photo ${p.id}: a file date can't make a date "verified"`);
   ok();
 }
@@ -160,13 +162,107 @@ for (const p of photoLibrary) {
   else if (!photoDims[p.id]) fail(`photo ${p.id} has not been generated (npm run assets)`);
   else ok();
   if (sources.excluded[p.id]) fail(`photo ${p.id} is excluded (${sources.excluded[p.id].reason}) but is in the registry`);
-  if (/^P\d+$/.test(p.id) || p.id === 'BQ-P01') {
+  if (/^P\d+$/.test(p.id)) {
     if (allowed.has(p.id)) ok();
     else fail(`photo ${p.id} is not in film-safe/media-allowlist.csv`);
-  }
+  } else if (sources.photos[p.id]?.imported) ok();
+  else fail(`photo ${p.id} is neither allow-listed nor recorded as an import by Ruru`);
 }
 for (const id of Object.keys(sources.photos)) {
   if (!photo.has(id)) warn.push(`asset-sources.json has ${id} but the registry doesn't use it`);
+}
+
+// provisional associations: labelled, never linked to memories
+for (const p of photoLibrary.filter((x) => x.eventAssociation === 'provisional')) {
+  if (p.relatedMemoryId) fail(`photo ${p.id} is provisional but linked to memory ${p.relatedMemoryId}`);
+  const fs = (p.factIds ?? []).map((id) => factById.get(id));
+  if (fs.length && fs.every((f) => f && f.verificationStatus !== 'unconfirmed')) ok();
+  else fail(`photo ${p.id} is provisional but cites no provisional/confirmed fact`);
+}
+// photos the user asked to keep
+for (const id of ['P07', 'P11', 'P13', 'P14']) {
+  if (photo.has(id)) ok();
+  else fail(`${id} (a photo of the two of you) is missing from the registry`);
+}
+
+// ── 5b. duplicates and excluded look-alikes ──────────────────────────────
+{
+  const { createHash } = await import('node:crypto');
+  const { execFileSync } = await import('node:child_process');
+  const { mkdtempSync } = await import('node:fs');
+  const { tmpdir } = await import('node:os');
+  const { join } = await import('node:path');
+  const sharp = (await import('sharp')).default;
+  const tmp = mkdtempSync(join(tmpdir(), 'reva-verify-'));
+  const root = resolve(here, sources.sourceRoot);
+  const fileOf = (id, e) => {
+    let f = join(root, e.src ?? e.video);
+    if (e.video) {
+      const o = join(tmp, `${id}.jpg`);
+      execFileSync('ffmpeg', ['-loglevel', 'error', '-y', '-ss', String(e.at), '-i', f, '-frames:v', '1', o]);
+      f = o;
+    } else if (f.endsWith('.heic')) {
+      const o = join(tmp, `${id}.jpg`);
+      execFileSync('sips', ['-s', 'format', 'jpeg', f, '--out', o], { stdio: 'ignore' });
+      f = o;
+    }
+    return f;
+  };
+  const dhash = async (f) => {
+    const { data } = await sharp(f).rotate().greyscale().resize(9, 8, { fit: 'fill' }).raw().toBuffer({ resolveWithObject: true });
+    let h = 0n;
+    for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) h = (h << 1n) | (data[y * 9 + x] > data[y * 9 + x + 1] ? 1n : 0n);
+    return h;
+  };
+  const dist = (a, b) => [...(a ^ b).toString(2)].filter((c) => c === '1').length;
+  const used = [];
+  for (const p of photoLibrary) {
+    const e = sources.photos[p.id];
+    if (!e) continue;
+    const f = fileOf(p.id, e);
+    used.push({ id: p.id, sha: createHash('sha256').update(readFileSync(f)).digest('hex'), h: await dhash(f) });
+  }
+  const seen = new Map();
+  for (const u of used) {
+    if (seen.has(u.sha)) fail(`${u.id} is the same file as ${seen.get(u.sha)} (duplicate entry)`);
+    else (seen.set(u.sha, u.id), ok());
+  }
+  for (const [id, e] of Object.entries(sources.excluded)) {
+    if (!existsSync(join(root, e.src ?? e.video))) continue;
+    const h = await dhash(fileOf(id, e));
+    for (const u of used) {
+      if (dist(h, u.h) <= 10) fail(`${u.id} looks like excluded photo ${id} (${e.reason}) — it must not be reintroduced`);
+      else ok();
+    }
+  }
+}
+
+// ── 7. the photo rule: show complete originals, never crop ───────────────
+{
+  const { readdirSync } = await import('node:fs');
+  const { join } = await import('node:path');
+  const walk = (d) => readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
+  const srcDir = resolve(here, '../src');
+  // decorative blurred backdrops sit BEHIND a complete photo; they're the only allowed cover
+  const allowedCover = ['.pfill__blur', '.wallpaper__blur'];
+  for (const file of walk(srcDir).filter((f) => /\.(css|tsx?)$/.test(f))) {
+    const text = readFileSync(file, 'utf8');
+    if (/objectFit:\s*'cover'|preserveAspectRatio="[^"]*slice"/.test(text)) fail(`${file.replace(srcDir, 'src')}: crops a photo (objectFit cover / slice)`);
+    if (file.endsWith('.css')) {
+      for (const m of text.matchAll(/([^{}]+)\{([^}]*)\}/g)) {
+        const [sel, body] = [m[1].trim(), m[2]];
+        if (/object-fit:\s*cover/.test(body) && !sel.startsWith('/*')) fail(`${file.replace(srcDir, 'src')}: "${sel}" uses object-fit: cover`);
+        if (/background-size:\s*cover/.test(body) && !allowedCover.some((a) => sel.includes(a))) fail(`${file.replace(srcDir, 'src')}: "${sel}" uses background-size: cover`);
+      }
+    }
+  }
+  const prep = readFileSync(resolve(here, 'prepare-assets.mjs'), 'utf8');
+  if (/fit:\s*'cover'|fit:\s*sharp\.fit\.cover/.test(prep)) fail('prepare-assets.mjs crops thumbnails');
+  else ok();
+  for (const [id, d] of Object.entries(photoDims)) {
+    if (d.edit?.approved) fail(`${id}: a cropped edit is set to be shown; the site shows complete originals`);
+    else ok();
+  }
 }
 
 // ── 6. message references ────────────────────────────────────────────────

@@ -75,7 +75,7 @@ export function Desktop() {
       {wpPhoto && wallpaperPhoto ? (
         <div className={`wallpaper wallpaper--photo wallpaper--${wallpaperPhoto.mode}`} aria-hidden="true">
           <div className="wallpaper__blur" style={{ backgroundImage: `url(${photoSrc(wpPhoto, { thumb: true })})` }} />
-          <div className="wallpaper__img" style={{ backgroundImage: `url(${photoSrc(wpPhoto)})`, backgroundPosition: wpPhoto.focus ?? 'center' }} />
+          <div className="wallpaper__img" style={{ backgroundImage: `url(${photoSrc(wpPhoto)})`, backgroundPosition: 'center' }} />
         </div>
       ) : (
         <div className={`wallpaper wallpaper--${wp.id}`} aria-hidden="true">
@@ -234,7 +234,7 @@ export function Desktop() {
                   const p = getPhoto(id)!;
                   return (
                     <button key={id} className="recent__item" onClick={() => openPhotos(recentList, id)} aria-label={`Open ${p.title}`}>
-                      <img src={photoSrc(p, { thumb: true }) ?? ''} alt="" loading="lazy" style={{ objectPosition: p.focus }} />
+                      <img className="photo" src={photoSrc(p, { thumb: true }) ?? ''} alt="" loading="lazy" />
                     </button>
                   );
                 })}

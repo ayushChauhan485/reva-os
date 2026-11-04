@@ -5,7 +5,7 @@ import { play } from '../../lib/sound';
 import { useProgress } from '../../store/progressStore';
 import { useSettings, type MotionPref, type SaverStyle, type WallpaperMode } from '../../store/settingsStore';
 
-const WP_MODES: WallpaperMode[] = ['fill', 'fit', 'centre', 'blur'];
+const WP_MODES: WallpaperMode[] = ['fit', 'centre', 'plain'];
 import { useUI } from '../../store/uiStore';
 
 function Toggle({ label, hint, on, onChange }: { label: string; hint?: string; on: boolean; onChange: (v: boolean) => void }) {
@@ -95,7 +95,7 @@ export default function Settings() {
           <div className="set-row">
             <span>
               <b>Photo wallpaper</b>
-              <small>Portraits get a blurred fill instead of being cropped.</small>
+              <small>The whole photo is always shown; nothing is cropped.</small>
             </span>
             <div className="seg" role="radiogroup" aria-label="Photo wallpaper mode">
               {WP_MODES.map((m) => (

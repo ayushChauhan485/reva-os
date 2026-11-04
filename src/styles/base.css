@@ -87,6 +87,23 @@ img {
   display: block;
 }
 
+/* ── THE PHOTO RULE ──────────────────────────────────────────────
+   Every photograph on the site shows the whole original frame:
+   never cropped, never zoomed, never stretched. Fixed-size frames
+   (grid cells, covers, polaroids) letterbox the photo on a neutral
+   mat instead of cutting it. `npm run verify-facts` fails if a
+   stylesheet reintroduces object-fit: cover on photographs. */
+:root {
+  --photo-mat: #e6ddcc;
+}
+
+img.photo,
+.photo-frame img {
+  object-fit: contain;
+  object-position: center;
+  background-color: var(--photo-mat);
+}
+
 :focus-visible {
   outline: 2px solid var(--electric);
   outline-offset: 2px;

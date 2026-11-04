@@ -89,3 +89,30 @@ Photo Booth, Then & Now, and the printable contact sheet *inside the app* are no
 - Removed at Ruru’s request: every photo of Ruru (the 8 flower-making stills, all showing him) and the 4 handmade-bouquet photos. They are listed as excluded in `scripts/asset-sources.json`, their web copies are deleted, and the Flower Department and Flower Archive fall back to labelled illustrations and placeholders. The library now has 20 photographs.
 - The letter is in (`src/data/letter.ts`), word for word as Ruru wrote it, behind classified.exe. The handwritten “Happy 21st, Riruu.” header is switched off because the letter ends with the same line (`useHandwrittenHeader` turns it back on).
 - The closing ceremony is restructured. The two closing lines lead to “And finally…” and a last envelope: Ruru’s Special Recognition Award. The stage dims and the spotlights still, and the dedication arrives one paragraph at a time, ending on the winner line and “With love, Ruru 🐡”. Only then: “See you at the 22nd edition.”
+
+## Update · 05.11.2026 · new photos + complete-original display
+
+**New photos.** The project’s parent folder (`4 nov/`) holds 43 images and 6 videos:
+- **12 new photos imported** as N01–N12.
+  - **5 provisional:** the 56th PEC Convocation, identified by the banner in the photos, dated 24 Oct 2026. They have their own album, are labelled provisional, and aren’t linked to any memory.
+  - **7 unsorted**, captioned only with what’s visible.
+- **31 skipped:** byte-identical copies of P01–P32.
+- **6 skipped:** videos, not photos.
+- **None unreadable.**
+- The 12 excluded photos are still excluded, and P07, P11, P13 and P14 are untouched.
+- `verify-facts` now hashes every source: duplicates fail, and anything that looks like an excluded photo (perceptual hash) fails.
+
+**Photos are shown complete, everywhere.**
+- **Cause:** about 20 components each cropped photos with `object-fit: cover` on fixed square, 4:3 or 3:4 boxes, steered by per-photo `focus` offsets. Recorded crops for P11, P13 and P14 were shown by default. The wallpaper's "fill"/"blur" modes and the memory-strip canvas also cropped. And the photo viewer overflowed: its grid stage had no definite height, so `max-height: 100%` was ignored, portraits rendered at natural size and their top and bottom were cut off.
+- **Fix:**
+  - one shared rule in `base.css` (`img.photo` / `.photo-frame img`: `object-fit: contain` on a neutral `--photo-mat`), applied to every photo `<img>` via the shared `Img` component and the `photo` class;
+  - every `cover` converted, and `focus` removed from the registry;
+  - circular masks replaced with rounded rectangles;
+  - hover zooms and the screensaver and slideshow zooms removed;
+  - the viewer stage and filmstrip preview switched to flex, so photos fit;
+  - the memory-strip canvas draws contain;
+  - wallpaper modes are now fit, centre and plain, with saved "fill"/"blur" settings migrated to "fit";
+  - the Find-game photo uses `meet`;
+  - P11, P13 and P14 crops are no longer shown;
+  - `verify-facts` fails on any `object-fit: cover`, `objectFit: 'cover'`, `slice`, non-decorative `background-size: cover`, cover-cropping thumbnails, or a shown crop.
+- **Tested in the browser:** all 33 rendered photos use contain with no transform. The tallest (725×1600) and widest (1600×900) photos fit the viewer at exact proportions on desktop and phone.

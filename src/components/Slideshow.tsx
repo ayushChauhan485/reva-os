@@ -6,7 +6,6 @@ import { albumPhotos, dateLabel, photoSrc, trustedDate, viewablePhotos, visibleA
 import { play } from '../lib/sound';
 import { useProgress } from '../store/progressStore';
 import { useUI } from '../store/uiStore';
-import { prefersReducedMotion } from '../store/settingsStore';
 
 type Order = 'library' | 'random' | 'date';
 
@@ -87,7 +86,6 @@ function Inner({ s }: { s: NonNullable<ReturnType<typeof useUI.getState>['slides
   };
 
   const p = list[i];
-  const reduce = prefersReducedMotion();
 
   return (
     <motion.div className={`slideshow ${chrome ? '' : 'slideshow--quiet'}`} role="dialog" aria-modal="true" aria-label="Slideshow" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onPointerMove={poke} onClick={poke}>
@@ -96,8 +94,8 @@ function Inner({ s }: { s: NonNullable<ReturnType<typeof useUI.getState>['slides
           <motion.figure
             key={p.id + i}
             className="slideshow__frame"
-            initial={{ opacity: 0, scale: reduce ? 1 : 1.02 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.9 }}
           >

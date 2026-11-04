@@ -171,8 +171,7 @@
 }
 
 .wallpaper--photo {
-  background-size: cover;
-  background-position: center 30%;
+  background-color: var(--cream);
 }
 
 .wallpaper--photo::after {
@@ -424,8 +423,7 @@
 
 .polaroid img {
   aspect-ratio: 4 / 4.4;
-  object-fit: cover;
-  object-position: 60% 40%;
+  object-fit: contain;
   width: 100%;
 }
 
@@ -1036,8 +1034,6 @@
 .saver__photo {
   position: absolute;
   inset: 0;
-  background-size: cover;
-  background-position: center;
   filter: saturate(0.9);
 }
 

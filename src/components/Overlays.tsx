@@ -116,10 +116,10 @@ function SaverInner() {
             <motion.div
               key={i}
               className="saver__photo"
-              initial={{ opacity: 0, scale: 1.06 }}
-              animate={{ opacity: 0.8, scale: reduce ? 1.06 : 1 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 0.85 }}
               exit={{ opacity: 0 }}
-              transition={{ opacity: { duration: 1.6 }, scale: { duration: 9, ease: 'linear' } }}
+              transition={{ duration: 1.6 }}
             >
               <PhotoFill p={p} />
             </motion.div>
@@ -143,7 +143,7 @@ function SaverInner() {
                   exit={{ opacity: 0, transition: { duration: 0.6 } }}
                   transition={{ duration: 1.2, delay: k * 0.15 }}
                 >
-                  <img src={photoSrc(q, { thumb: k > 0 }) ?? ''} alt="" style={{ objectPosition: q.focus }} />
+                  <img className="photo" src={photoSrc(q, { thumb: k > 0 }) ?? ''} alt="" />
                   <figcaption>{q.title}</figcaption>
                 </motion.figure>
               );
@@ -157,7 +157,7 @@ function SaverInner() {
           <motion.div className="saver__film-track" animate={{ x: `calc(50vw - ${(i % Math.max(1, pics.length)) * 340 + 160}px)` }} transition={{ duration: reduce ? 0 : 1.4, ease: [0.4, 0, 0.2, 1] }}>
             {pics.map((q, n) => (
               <div key={q.id} className={`saver__film-frame ${n === i % pics.length ? 'is-on' : ''}`}>
-                <img src={photoSrc(q, { thumb: true }) ?? ''} alt="" style={{ objectPosition: q.focus }} />
+                <img className="photo" src={photoSrc(q, { thumb: true }) ?? ''} alt="" />
               </div>
             ))}
           </motion.div>

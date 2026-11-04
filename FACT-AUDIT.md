@@ -55,6 +55,7 @@ Every personal claim shown in V1 was rechecked against the sources below. The ma
 | P04 (rooftop) possibly 6 May | Uncertain | Shown undated and unassigned | media-index “PLAUSIBLE” (dress only) |
 | Award “Best Definition of a Date” illustrated with P14 (a 6 May photo) for a 30 May quote | **Corrected** | Replaced with an undated portrait (P09) so no date is implied | — |
 | Any photo of the first date | Uncertain | None exists in the approved set. The first-date memory shows “No photograph on record” | media-index; Wishes review |
+| N03–N07 taken at the 56th PEC Convocation, 24 Oct 2026 | Provisional | Shown with a “provisional” label in their own album, and not linked to memories | The convocation banner visible in the photos; the chat export ends 02.10 |
 | Handmade bouquet photo (BQ-HD) dated | Confirmed | Captured 06.10.2026 18:36 (camera filename). The photos were later removed from the site at Ruru’s request (05.11.2026) | `incoming/IMG20261006…heic` |
 
 ## Testimony and award copy
