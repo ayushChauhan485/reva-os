@@ -1,0 +1,273 @@
+:root {
+  /* palette */
+  --cream: #ede4d5;
+  --cream-deep: #e2d6c2;
+  --rose: #d6b9d0;
+  --rose-deep: #b98fb0;
+  --powder: #afc5db;
+  --powder-deep: #8ca9c6;
+  --butter: #d9d49a;
+  --ink: #343342;
+  --paper: #faf7f0;
+
+  /* loud colours, used sparingly */
+  --electric: #2f5bea;
+  --red: #d9473b;
+  --hotpink: #e5539b;
+  --gold: #c9a24b;
+  --gold-bright: #e8c46a;
+  --burgundy: #5c1a2a;
+  --leaf: #6f9a6a;
+
+  --ink-80: rgba(52, 51, 66, 0.8);
+  --ink-60: rgba(52, 51, 66, 0.62);
+  --ink-40: rgba(52, 51, 66, 0.4);
+  --line: rgba(52, 51, 66, 0.16);
+  --line-strong: rgba(52, 51, 66, 0.85);
+
+  --font-ui: 'DM Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces Variable', Georgia, 'Times New Roman', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --font-hand: 'Caveat', 'Bradley Hand', cursive;
+  --font-pixel: 'Silkscreen', var(--font-mono);
+
+  --r-sm: 4px;
+  --r: 8px;
+  --r-lg: 12px;
+  --shadow-win: 0 1px 0 rgba(52, 51, 66, 0.06), 0 24px 48px -20px rgba(52, 51, 66, 0.45), 0 8px 18px -10px rgba(52, 51, 66, 0.25);
+  --shadow-pop: 0 14px 34px -14px rgba(52, 51, 66, 0.5);
+  --shadow-hard: 3px 3px 0 var(--ink);
+
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --dur: 180ms;
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 2px solid var(--electric);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--butter);
+  color: var(--ink);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+}
+
+.hand {
+  font-family: var(--font-hand);
+}
+
+/* ── shared controls ───────────────────────────────────────── */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 7px 14px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: var(--paper);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  box-shadow: 0 2px 0 var(--ink);
+  transition: transform var(--dur) var(--ease-out), box-shadow var(--dur) var(--ease-out), background var(--dur);
+  user-select: none;
+}
+
+.btn:hover {
+  background: #fff;
+}
+
+.btn:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 var(--ink);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 0 var(--ink);
+}
+
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn--primary:hover {
+  background: #45435a;
+}
+
+.btn--ghost {
+  background: transparent;
+  box-shadow: none;
+  border-color: var(--line);
+}
+
+.btn--ghost:active {
+  transform: none;
+}
+
+.btn--sm {
+  min-height: 30px;
+  padding: 4px 10px;
+  font-size: 13px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 32px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.chip[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+
+.field {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r);
+  background: #fff;
+  font-size: 14px;
+}
+
+.field::placeholder {
+  color: var(--ink-40);
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-60);
+}
+
+.editor-note {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-60);
+}
+
+.editor-note::before {
+  content: 'EDITOR’S NOTE · ';
+  letter-spacing: 0.06em;
+  color: var(--ink-40);
+}
+
+.placeholder-box {
+  border: 1.5px dashed var(--ink-40);
+  border-radius: var(--r);
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-60);
+  background: repeating-linear-gradient(-45deg, transparent 0 8px, rgba(52, 51, 66, 0.04) 8px 16px);
+}
+
+/* scrollbars */
+.scroll {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ink-40) transparent;
+}
+
+.scroll::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scroll::-webkit-scrollbar-thumb {
+  background: var(--ink-40);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* reduced motion: we also pass this to Motion via MotionConfig */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}

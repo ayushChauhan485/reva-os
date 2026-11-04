@@ -1,0 +1,52 @@
+{
+  "P20": {
+    "file": "p20-archive",
+    "w": 1200,
+    "h": 1600
+  },
+  "P12": {
+    "file": "p12-bowling",
+    "w": 878,
+    "h": 1220
+  },
+  "P13": {
+    "file": "p13-bowling-couch",
+    "w": 1600,
+    "h": 1000
+  },
+  "P14": {
+    "file": "p14-bowling-lanes",
+    "w": 1600,
+    "h": 1000
+  },
+  "P15": {
+    "file": "p15-lake-morning",
+    "w": 780,
+    "h": 1040
+  },
+  "P19": {
+    "file": "p19-golden-hour",
+    "w": 1200,
+    "h": 1600
+  },
+  "P04": {
+    "file": "p04-rooftop",
+    "w": 2268,
+    "h": 4032
+  },
+  "P08": {
+    "file": "p08-incubator",
+    "w": 1600,
+    "h": 1200
+  },
+  "P03": {
+    "file": "p03-sunglasses",
+    "w": 900,
+    "h": 1600
+  },
+  "BQ-HD": {
+    "file": "bouquet-handmade",
+    "w": 4096,
+    "h": 2304
+  }
+}

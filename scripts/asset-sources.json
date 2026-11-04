@@ -1,0 +1,43 @@
+{
+  "_note": "Maps each approved asset ID (from ../Birthday/media-index.csv + film-safe/media-allowlist.csv) to its ORIGINAL file. Sources are read-only; prepare-assets.mjs writes web copies to public/assets/. This file is NOT shipped in the build.",
+  "sourceRoot": "../../../Birthday",
+  "photos": {
+    "P20": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.41.jpeg", "out": "p20-archive" },
+    "P12": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.30.jpeg",
+      "out": "p12-bowling",
+      "rotate": 270,
+      "crop": { "left": 322, "top": 380, "width": 878, "height": 1220 },
+      "_why": "content is rotated 90°; crop removes the third person (left) and the camera date stamp (top right)"
+    },
+    "P13": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.32.jpeg",
+      "out": "p13-bowling-couch",
+      "crop": { "left": 0, "top": 0, "width": 1600, "height": 1000 },
+      "_why": "crop removes the wrong camera date stamp"
+    },
+    "P14": {
+      "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.33.jpeg",
+      "out": "p14-bowling-lanes",
+      "crop": { "left": 0, "top": 0, "width": 1600, "height": 1000 },
+      "_why": "crop removes the wrong camera date stamp"
+    },
+    "P15": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.35.jpeg", "out": "p15-lake-morning" },
+    "P19": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.40.jpeg", "out": "p19-golden-hour" },
+    "P04": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.19.jpeg", "out": "p04-rooftop" },
+    "P08": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.25.jpeg", "out": "p08-incubator" },
+    "P03": { "src": "Videos/WhatsApp Image 2026-10-06 at 14.11.18.jpeg", "out": "p03-sunglasses" },
+    "BQ-HD": {
+      "src": "incoming/IMG20261006183639.heic",
+      "out": "bouquet-handmade",
+      "heic": true,
+      "_why": "the handmade pipe-cleaner lily + poppy bouquet (Sept 2026). Remove from flowers.ts if you'd rather keep it off the site."
+    }
+  },
+  "handwriting": {
+    "src": "production/handwriting/work/ink_full.png",
+    "out": "happy-21st-riruu",
+    "crop": { "left": 360, "top": 1100, "width": 1070, "height": 168 },
+    "_why": "Ruru's real handwriting: 'Happy 21st, Riruu.' cut from his scanned sheet"
+  }
+}
