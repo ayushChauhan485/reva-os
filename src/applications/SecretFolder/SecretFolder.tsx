@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { Img } from '../../components/common';
-import { handwritingHeader } from '../../data/assets';
+import { handwritingHeader } from '../../lib/photos';
 import { letter, letterPlaceholder, puzzle } from '../../data/letter';
 import { play } from '../../lib/sound';
 import { useDesktop } from '../../store/desktopStore';
@@ -119,7 +119,7 @@ function Letter() {
       {letter.useHandwrittenHeader && <img className="letter__hand" src={handwritingHeader} alt="Happy 21st, Riruu. (handwritten)" />}
       {letter.photo && (
         <div className="letter__photo">
-          <Img asset={letter.photo} full openable />
+          <Img id={letter.photo} full openable />
         </div>
       )}
       {letter.greeting && <p className="letter__greeting">{letter.greeting}</p>}

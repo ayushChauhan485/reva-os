@@ -7,6 +7,7 @@ import { Window } from './Window';
 // Each app is its own chunk, loaded the first time it opens.
 const registry: Record<AppId, ComponentType> = {
   archive: lazy(() => import('../applications/Archive/Archive')),
+  photos: lazy(() => import('../applications/Photos/Photos')),
   flowers: lazy(() => import('../applications/Flowers/Flowers')),
   dictionary: lazy(() => import('../applications/RevaDictionary/Dictionary')),
   calendar: lazy(() => import('../applications/Calendar/Calendar')),
@@ -18,7 +19,7 @@ const registry: Record<AppId, ComponentType> = {
   about: lazy(() => import('../applications/About/About')),
 };
 
-const variants: Partial<Record<AppId, string>> = { awards: 'awards', terminal: 'terminal', classified: 'classified' };
+const variants: Partial<Record<AppId, string>> = { photos: 'photos', awards: 'awards', terminal: 'terminal', classified: 'classified' };
 
 export function WindowLayer() {
   const windows = useDesktop((s) => s.windows);

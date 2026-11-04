@@ -18,7 +18,8 @@ export type SoundName =
   | 'error'
   | 'pop'
   | 'paper'
-  | 'type';
+  | 'type'
+  | 'ambient';
 
 let ctx: AudioContext | null = null;
 let master: GainNode | null = null;
@@ -85,6 +86,8 @@ function noise(dur: number, o: { at?: number; gain?: number; freq?: number; q?: 
 
 const recipes: Record<SoundName, () => void> = {
   click: () => tone(1800, 0.03, { type: 'square', gain: 0.04 }),
+  // a very soft, slow chord for the screensaver
+  ambient: () => [196, 246.9, 293.7].forEach((f, i) => tone(f, 4.5, { type: 'sine', gain: 0.025, at: i * 0.3, attack: 1.2 })),
   type: () => tone(2400 + Math.random() * 400, 0.015, { type: 'square', gain: 0.015 }),
   open: () => {
     tone(523, 0.09, { type: 'triangle', gain: 0.12 });

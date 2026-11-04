@@ -1,7 +1,7 @@
 // The relationship archive (our_archive.exe).
 // `intro` lines are Ruru's own captions. Real messages are referenced by id
 // from curatedContent.ts so their wording can't drift.
-import type { Memory } from './types';
+import { GAP, type Memory } from './types.ts';
 
 export const archiveIntro = {
   title: 'The Museum of Us',
@@ -17,6 +17,7 @@ export const memories: Memory[] = [
     title: 'The Suspicious Similarities',
     intro: ['One of us noticed.', 'The other had noticed', 'a day earlier.'],
     messages: ['m-2504-a', 'm-2504-b'],
+    factIds: ['sameee'],
     tags: ['early days', 'conversation'],
   },
   {
@@ -26,6 +27,7 @@ export const memories: Memory[] = [
     title: 'The Beginning',
     intro: ['Sector 10.', 'A first date.', 'And the beginning of something', 'that became a lot more special.'],
     place: 'Sector 10 Park, Chandigarh',
+    factIds: ['first-date-date', 'first-date-place', 'safe-comfortable'],
     sealed: {
       label: 'later_that_night.txt',
       messageIds: ['m-2704-safe'],
@@ -40,6 +42,7 @@ export const memories: Memory[] = [
     title: 'The First Pufferfish',
     intro: ['02:23.', 'A goodnight.', 'And a small fish that never left.'],
     messages: ['m-2904-puffer'],
+    factIds: ['first-puffer'],
     tags: ['goodnight', 'pufferfish'],
   },
   {
@@ -49,7 +52,8 @@ export const memories: Memory[] = [
     title: 'Three Little Words',
     intro: ['Said on the 3rd.', 'Said back on the 6th,', 'after apparently waiting two days to.', 'There was also bowling.'],
     messages: ['m-0305-ily', 'm-0605-ilyt', 'm-0605-2din'],
-    photos: ['bowlingMain', 'bowlingLanes', 'bowlingAlternative'],
+    photos: ['P12', 'P14', 'P13'],
+    factIds: ['first-ily', 'first-ily-too', 'bowling-day', 'photo-bowling'],
     tags: ['i love you', 'bowling'],
   },
   {
@@ -59,6 +63,7 @@ export const memories: Memory[] = [
     title: 'A Different Definition of a Date',
     intro: ['No reservation.', 'No plan.', 'Apparently it still counts.'],
     messages: ['m-3005-date'],
+    factIds: ['date-quote'],
     tags: ['quote', 'dates'],
   },
   {
@@ -67,7 +72,8 @@ export const memories: Memory[] = [
     folderName: '18.06_WHITE_LILY',
     title: 'White Lily',
     intro: ['A comparison was made.', 'A flower was reviewed.', 'The review: cute.'],
-    messages: ['m-1806-a', 'm-1806-b', 'm-1806-c', 'm-1806-d'],
+    messages: ['m-1806-0', 'm-1806-a', 'm-1806-b', 'm-1806-c', GAP, 'm-1806-d'],
+    factIds: ['white-lily'],
     tags: ['flowers', 'lily'],
   },
   {
@@ -75,9 +81,10 @@ export const memories: Memory[] = [
     date: '2026-06-27',
     folderName: '27.06_LAKE_DAY',
     title: 'Lake Day',
-    intro: ['Another 27th.', 'Sukhna.', 'The morning started on a court.'],
+    intro: ['Another 27th.', 'Sukhna.', 'There’s no photograph of the lake in the archive.', 'The date is enough.'],
     place: 'Sukhna Lake',
-    photos: ['lakeDay'],
+    messages: ['m-3007-sat27'],
+    factIds: ['lake-day'],
     tags: ['27th', 'lake'],
   },
   {
@@ -85,8 +92,9 @@ export const memories: Memory[] = [
     date: '2026-07-28',
     folderName: '28.07_THE_PETROL_PUMP_FLOWER',
     title: 'The Petrol-Pump Flower',
-    intro: ['Location: a petrol pump.', 'Species: unknown.', 'Effect: noted.'],
-    messages: ['m-2807-flower', 'm-2807-pump'],
+    intro: ['A story, told on 28 July.', 'Somewhere earlier: a petrol pump,', 'a pink flower,', 'and someone it reminded her of.'],
+    messages: ['m-2807-handpicked', 'm-2807-remember', 'm-2807-fix', GAP, 'm-2807-gas', GAP, 'm-2807-flower', 'm-2807-pump', GAP, 'm-2807-pink'],
+    factIds: ['petrol-pump-flower'],
     tags: ['flowers'],
   },
   {
@@ -94,8 +102,9 @@ export const memories: Memory[] = [
     date: '2026-09-19',
     folderName: '19.09_TIGER_LILY_AND_POPPY',
     title: 'Tiger Lily, and a Counter-Proposal',
-    intro: ['A tiger lily was nominated.', 'A poppy was proposed instead.', 'The meaning was debated.'],
-    messages: ['m-1909-tiger', 'm-1909-notfav', 'm-1909-poppy', 'm-1909-yuhi', 'm-1909-notabout', 'm-1909-me', 'm-1909-notexactly'],
+    intro: ['A tiger lily was nominated.', 'The meaning landed. The flower did not.', 'A poppy was proposed instead.'],
+    messages: ['m-1909-tiger', GAP, 'm-1909-oneday', 'm-1909-notexpect', GAP, 'm-1909-meaning', 'm-1909-par', 'm-1909-notfav', GAP, 'm-1909-poppy', 'm-1909-yuhi', 'm-1909-notabout', 'm-1909-me', 'm-1909-notexactly'],
+    factIds: ['tiger-lily'],
     tags: ['flowers', 'poppy', 'tiger lily'],
   },
 ];

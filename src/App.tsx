@@ -4,7 +4,9 @@ import { BootScreen } from './components/BootScreen';
 import { Desktop } from './components/Desktop';
 import { Dock } from './components/Dock';
 import { MenuBar } from './components/MenuBar';
-import { Lightbox, NotificationScheduler, Screensaver, Toasts, WanderingPufferfish } from './components/Overlays';
+import { NotificationScheduler, Screensaver, Toasts, WanderingPufferfish } from './components/Overlays';
+import { PhotoViewer } from './components/PhotoViewer';
+import { Slideshow } from './components/Slideshow';
 import { WindowLayer } from './components/WindowLayer';
 import { useMediaQuery } from './lib/hooks';
 import { useDesktop } from './store/desktopStore';
@@ -40,7 +42,8 @@ export default function App() {
           <Dock />
           <WanderingPufferfish />
           <Toasts />
-          <Lightbox />
+          <PhotoViewer />
+          <Slideshow />
           <Screensaver />
           <NotificationScheduler />
         </>

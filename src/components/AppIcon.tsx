@@ -24,6 +24,16 @@ const ICONS: Record<AppId, React.ReactNode> = {
       <path d="M19 28h10" />
     </g>
   ),
+  photos: (
+    <g {...S}>
+      <rect x="9" y="12" width="28" height="30" rx="1.5" fill="#FAF7F0" transform="rotate(-9 23 27)" />
+      <rect x="12" y="15" width="22" height="18" fill="#AFC5DB" transform="rotate(-9 23 27)" />
+      <rect x="14" y="8" width="28" height="31" rx="1.5" fill="#FAF7F0" transform="rotate(6 28 23)" />
+      <rect x="17" y="11" width="22" height="19" fill="#D6B9D0" transform="rotate(6 28 23)" />
+      <circle cx="31" cy="17" r="3" fill="#D9D49A" strokeWidth="1.5" transform="rotate(6 28 23)" />
+      <path d="M18 29l6-7 5 5 4-3 6 6" fill="none" strokeWidth="1.6" transform="rotate(6 28 23)" />
+    </g>
+  ),
   flowers: (
     <g {...S}>
       <path d="M24 26v10" />

@@ -2,6 +2,7 @@
 // Add, remove, rename or reorder categories here. Evidence references real
 // messages/testimony by id. `juryNotes` are Ruru's jokes and are shown as such.
 import type { RevaAward } from './types';
+import { pufferfishStats } from './curatedContent.ts';
 
 export const ceremony = {
   title: 'THE 21ST ANNUAL REVA AWARDS',
@@ -37,7 +38,7 @@ export const awards: RevaAward[] = [
       { kind: 'testimony', ref: 't-story-anusha' },
     ],
     juryNotes: ['Two witnesses. Recorded separately. No coordination detected.'],
-    image: 'portraitIncubator',
+    image: 'P08',
     trophyStyle: 'quill',
     isUnlocked: true,
   },
@@ -55,7 +56,7 @@ export const awards: RevaAward[] = [
       'Official rankings, as submitted: 1. Aryaman (according to Aryaman). 2. Reva.',
       'Results not independently verified. The Academy has overruled the ranking anyway.',
     ],
-    image: 'portraitSunglasses',
+    image: 'P03',
     trophyStyle: 'scales',
     isUnlocked: true,
   },
@@ -70,7 +71,7 @@ export const awards: RevaAward[] = [
       { kind: 'testimony', ref: 't-months-kishna' },
     ],
     juryNotes: ['Pattern detected: two witnesses, same finding. Buffering: none.'],
-    image: 'portraitGoldenHour',
+    image: 'P19',
     trophyStyle: 'loop',
     isUnlocked: true,
   },
@@ -78,7 +79,7 @@ export const awards: RevaAward[] = [
     id: 'cares',
     title: 'The People’s Choice: Actually Cares About People',
     subtitle: 'Voted by the people. The people were unusually specific.',
-    description: 'Several people, asked separately, arrived at the same answer.',
+    description: 'Several people, recording separately, arrived at the same answer.',
     winner: 'Reva',
     evidence: [
       { kind: 'testimony', ref: 't-care-japneet' },
@@ -86,7 +87,8 @@ export const awards: RevaAward[] = [
       { kind: 'testimony', ref: 't-care-anurag' },
     ],
     juryNotes: ['This one is not a joke. The Academy will resume being ridiculous shortly.'],
-    image: 'portraitRooftop',
+    image: 'P04',
+    gallery: ['P04', 'P08', 'P19', 'P20'],
     trophyStyle: 'hands',
     isUnlocked: true,
   },
@@ -94,16 +96,17 @@ export const awards: RevaAward[] = [
     id: 'pufferfish',
     title: 'Pufferfish Lifetime Achievement',
     subtitle: 'For sustained excellence in the field of goodnight fish.',
-    description: 'A career spanning 146 pufferfish. The Academy has run the numbers.',
+    description: 'A career measured in pufferfish. The Academy has run the numbers.',
     winner: 'Reva',
     evidence: [
       { kind: 'chat', ref: 'm-2904-puffer' },
-      { kind: 'stat', text: '146 pufferfish sent in total' },
-      { kind: 'stat', text: '133 of them inside goodnight messages' },
-      { kind: 'stat', text: 'Pufferfish sent by Ruru in the same period: 0' },
+      { kind: 'stat', text: `${pufferfishStats.total} pufferfish sent in total` },
+      { kind: 'stat', text: `${pufferfishStats.inGoodnights} of them inside goodnight messages` },
+      { kind: 'stat', text: `Pufferfish sent by Ruru in the same period: ${pufferfishStats.sentByRuru}` },
     ],
-    juryNotes: ['Measured from the chat export of 02.10.2026. Career ongoing.'],
+    juryNotes: [`Recounted from the ${pufferfishStats.measuredFrom}. Career ongoing.`],
     trophyStyle: 'puffer',
+    gallery: ['P03', 'P17', 'P01', 'P02'],
     evidenceDate: '29.04.2026',
     isUnlocked: true,
   },
@@ -114,7 +117,10 @@ export const awards: RevaAward[] = [
     description: 'A tiger lily was nominated. The nominee filed a counter-proposal. Then a twist.',
     winner: 'Reva',
     evidence: [
+      { kind: 'chat', ref: 'm-1909-tiger' },
+      { kind: 'chat', ref: 'm-1909-notfav' },
       { kind: 'chat', ref: 'm-1909-poppy' },
+      { kind: 'chat', ref: 'm-1909-yuhi' },
       { kind: 'chat', ref: 'm-1909-notabout' },
       { kind: 'chat', ref: 'm-1909-me' },
       { kind: 'chat', ref: 'm-1909-notexactly' },
@@ -132,7 +138,7 @@ export const awards: RevaAward[] = [
     winner: 'Reva',
     evidence: [{ kind: 'chat', ref: 'm-3005-date' }],
     juryNotes: ['Submitted at 01:14, which the Academy considers peak one-liner hours.'],
-    image: 'bowlingLanes',
+    image: 'P09',
     trophyStyle: 'calendar',
     evidenceDate: '30.05.2026',
     isUnlocked: true,
@@ -155,7 +161,8 @@ export const specialRecognition = {
   title: 'Ruru’s Special Recognition Award',
   subtitle: 'A category of one.',
   trophyStyle: 'star' as const,
-  image: 'portraitGoldenHour' as const,
+  /** ✍️ choose the photograph for this award (any photo id) */
+  image: 'P19',
   // ✍️ PLACEHOLDER — replace with your own dedication. Leave as '' to hide the award.
   dedication: '',
   placeholderNote: 'Ruru is still writing this one. Add the dedication in src/data/awards.ts → specialRecognition.dedication.',

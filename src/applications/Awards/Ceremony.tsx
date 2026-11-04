@@ -76,10 +76,17 @@ export function Ceremony({ id, go }: { id: string; go: (s: Scene) => void }) {
           <motion.div key="ci" className="ceremony__card ceremony__card--citation" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
             <div className="ceremony__kicker">CITATION · {award.title.toUpperCase()}</div>
             <p className="ceremony__desc">{award.description}</p>
-            <div className={`citation ${award.image ? 'citation--photo' : ''}`}>
-              {award.image && (
+            <div className={`citation ${award.image || award.gallery ? 'citation--photo' : ''}`}>
+              {award.image && !award.gallery && (
                 <div className="citation__photo">
-                  <Img asset={award.image} openable />
+                  <Img id={award.image} openable />
+                </div>
+              )}
+              {award.gallery && (
+                <div className="citation__gallery" aria-label="Photographs">
+                  {award.gallery.map((id) => (
+                    <Img key={id} id={id} openable group={award.gallery} />
+                  ))}
                 </div>
               )}
               <div className="citation__evidence">

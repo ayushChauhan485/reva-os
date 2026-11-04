@@ -1,10 +1,11 @@
-// Toasts, lightbox, screensaver, the wandering pufferfish and the
+// Toasts, screensaver, the wandering pufferfish and the
 // background schedulers that drive them.
 import { AnimatePresence, motion } from 'motion/react';
-import { ChevronLeft, ChevronRight, X, ZoomIn, ZoomOut } from 'lucide-react';
-import { useEffect, useRef, useState } from 'react';
+import { X } from 'lucide-react';
+import { useEffect, useMemo, useState } from 'react';
 import { config } from '../config';
-import { photos, portraitKeys } from '../data/assets';
+import { photoSrc } from '../lib/photos';
+import { PhotoFill, sourcePhotos } from './Slideshow';
 import { pufferLines, randomNotes, screensaverLines } from '../data/easterEggs';
 import { pick, rand, useNow } from '../lib/hooks';
 import { play } from '../lib/sound';
@@ -54,106 +55,10 @@ export function Toasts() {
   );
 }
 
-export function Lightbox() {
-  const lb = useUI((s) => s.lightbox);
-  const [zoom, setZoom] = useState(false);
-  const touchX = useRef<number | null>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
-
-  useEffect(() => {
-    if (!lb) return;
-    setZoom(false);
-    closeRef.current?.focus();
-    const key = (e: KeyboardEvent) => {
-      const ui = useUI.getState();
-      if (e.key === 'Escape') ui.closeLightbox();
-      if (e.key === 'ArrowRight') ui.setLightboxIndex((ui.lightbox?.index ?? 0) + 1);
-      if (e.key === 'ArrowLeft') ui.setLightboxIndex((ui.lightbox?.index ?? 0) - 1);
-    };
-    window.addEventListener('keydown', key);
-    return () => window.removeEventListener('keydown', key);
-  }, [lb?.items, lb?.index]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  return (
-    <AnimatePresence>
-      {lb && (
-        <motion.div
-          className="lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Photo viewer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={(e) => e.target === e.currentTarget && useUI.getState().closeLightbox()}
-        >
-          <div className="lightbox__top">
-            <span>
-              {lb.index + 1} / {lb.items.length}
-            </span>
-            <span style={{ display: 'flex', gap: 8 }}>
-              <button className="icon-btn" aria-label={zoom ? 'Fit to screen' : 'View full size'} onClick={() => setZoom(!zoom)}>
-                {zoom ? <ZoomOut size={16} /> : <ZoomIn size={16} />}
-              </button>
-              <button ref={closeRef} className="icon-btn" aria-label="Close photo viewer" onClick={() => useUI.getState().closeLightbox()}>
-                <X size={16} />
-              </button>
-            </span>
-          </div>
-          {(() => {
-            const p = lb.items[lb.index];
-            return (
-              <>
-                <div
-                  className={`lightbox__stage ${zoom ? 'lightbox__stage--zoom' : ''}`}
-                  onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
-                  onTouchEnd={(e) => {
-                    if (touchX.current === null || zoom) return;
-                    const dx = e.changedTouches[0].clientX - touchX.current;
-                    if (Math.abs(dx) > 50) useUI.getState().setLightboxIndex(lb.index + (dx < 0 ? 1 : -1));
-                    touchX.current = null;
-                  }}
-                >
-                  <motion.img
-                    key={p.src}
-                    className="lightbox__img"
-                    src={p.src}
-                    alt={p.alt}
-                    initial={{ opacity: 0, scale: 0.98 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    onClick={() => setZoom(!zoom)}
-                  />
-                  {lb.items.length > 1 && (
-                    <>
-                      <button className="lightbox__nav lightbox__nav--prev" aria-label="Previous photo" onClick={() => useUI.getState().setLightboxIndex(lb.index - 1)}>
-                        <ChevronLeft />
-                      </button>
-                      <button className="lightbox__nav lightbox__nav--next" aria-label="Next photo" onClick={() => useUI.getState().setLightboxIndex(lb.index + 1)}>
-                        <ChevronRight />
-                      </button>
-                    </>
-                  )}
-                </div>
-                <div className="lightbox__caption">
-                  <b>{p.caption ?? p.alt}</b>
-                  {p.date && <span>{p.date}</span>}
-                </div>
-              </>
-            );
-          })()}
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
-
-/** Idle screensaver. Never starts while a window, photo or letter is open. */
+/** Idle screensaver. Never starts while a window, photo, slideshow or letter is open. */
 export function Screensaver() {
   const on = useUI((s) => s.screensaver);
   const enabled = useSettings((s) => s.screensaver);
-  const [i, setI] = useState(0);
-  const now = useNow(1000);
-  const pics = photos(portraitKeys);
 
   useEffect(() => {
     if (!enabled) return;
@@ -163,7 +68,7 @@ export function Screensaver() {
       clearTimeout(t);
       t = window.setTimeout(() => {
         const ui = useUI.getState();
-        if (!hasVisibleWindows() && !ui.lightbox && document.visibilityState === 'visible') ui.setScreensaver(true);
+        if (!hasVisibleWindows() && !ui.viewer && !ui.slideshow && document.visibilityState === 'visible') ui.setScreensaver(true);
         else reset();
       }, config.screensaverAfter * 1000);
     };
@@ -176,44 +81,99 @@ export function Screensaver() {
     };
   }, [enabled]);
 
-  useEffect(() => {
-    if (!on) return;
-    const t = window.setInterval(() => setI((n) => n + 1), 7000);
-    return () => clearInterval(t);
-  }, [on]);
+  return <AnimatePresence>{on && <SaverInner key="saver" />}</AnimatePresence>;
+}
 
+function SaverInner() {
+  const { saverSource, saverStyle, saverShuffle, saverSound } = useSettings();
+  const now = useNow(1000);
+  const [i, setI] = useState(0);
   const reduce = prefersReducedMotion();
+  const pics = useMemo(() => {
+    let xs = sourcePhotos(saverSource).filter((p) => p.kind === 'photo');
+    if (!xs.length) xs = sourcePhotos('all').filter((p) => p.kind === 'photo');
+    return saverShuffle ? [...xs].sort(() => Math.random() - 0.5) : xs;
+  }, [saverSource, saverShuffle]);
+
+  useEffect(() => {
+    const t = window.setInterval(() => setI((n) => n + 1), saverStyle === 'filmstrip' ? 4000 : 6500);
+    return () => clearInterval(t);
+  }, [saverStyle]);
+
+  useEffect(() => {
+    if (!saverSound) return;
+    play('ambient');
+  }, [i, saverSound]);
+
   const p = pics.length ? pics[i % pics.length] : null;
+  const line = screensaverLines[i % screensaverLines.length];
 
   return (
-    <AnimatePresence>
-      {on && (
-        <motion.div className="saver" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} aria-hidden="true">
-          <AnimatePresence>
-            {p && (
-              <motion.div
-                key={i}
-                className="saver__photo"
-                style={{ backgroundImage: `url(${p.src})` }}
-                initial={{ opacity: 0, scale: 1.08 }}
-                animate={{ opacity: 0.75, scale: reduce ? 1.08 : 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ opacity: { duration: 1.6 }, scale: { duration: 8, ease: 'linear' } }}
-              />
-            )}
-          </AnimatePresence>
-          <div className="saver__veil" />
-          <div className="saver__text">
-            <div className="saver__clock">{now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</div>
-            <AnimatePresence mode="wait">
-              <motion.div key={i} className="saver__line" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
-                {screensaverLines[i % screensaverLines.length]}
-              </motion.div>
-            </AnimatePresence>
-          </div>
-        </motion.div>
+    <motion.div className={`saver saver--${saverStyle}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.8 }} aria-hidden="true">
+      {saverStyle === 'drift' && (
+        <AnimatePresence>
+          {p && (
+            <motion.div
+              key={i}
+              className="saver__photo"
+              initial={{ opacity: 0, scale: 1.06 }}
+              animate={{ opacity: 0.8, scale: reduce ? 1.06 : 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ opacity: { duration: 1.6 }, scale: { duration: 9, ease: 'linear' } }}
+            >
+              <PhotoFill p={p} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       )}
-    </AnimatePresence>
+
+      {saverStyle === 'polaroid' && (
+        <div className="saver__table">
+          <AnimatePresence>
+            {[0, 1, 2].map((k) => {
+              const q = pics.length ? pics[(i + k) % pics.length] : null;
+              if (!q) return null;
+              const rot = ((i + k) * 47) % 14 - 7;
+              return (
+                <motion.figure
+                  key={`${q.id}-${i + k}`}
+                  className={`saver__polaroid saver__polaroid--${k}`}
+                  initial={{ opacity: 0, y: reduce ? 0 : 40, rotate: rot - 4 }}
+                  animate={{ opacity: 1, y: 0, rotate: rot }}
+                  exit={{ opacity: 0, transition: { duration: 0.6 } }}
+                  transition={{ duration: 1.2, delay: k * 0.15 }}
+                >
+                  <img src={photoSrc(q, { thumb: k > 0 }) ?? ''} alt="" style={{ objectPosition: q.focus }} />
+                  <figcaption>{q.title}</figcaption>
+                </motion.figure>
+              );
+            })}
+          </AnimatePresence>
+        </div>
+      )}
+
+      {saverStyle === 'filmstrip' && (
+        <div className="saver__film">
+          <motion.div className="saver__film-track" animate={{ x: `calc(50vw - ${(i % Math.max(1, pics.length)) * 340 + 160}px)` }} transition={{ duration: reduce ? 0 : 1.4, ease: [0.4, 0, 0.2, 1] }}>
+            {pics.map((q, n) => (
+              <div key={q.id} className={`saver__film-frame ${n === i % pics.length ? 'is-on' : ''}`}>
+                <img src={photoSrc(q, { thumb: true }) ?? ''} alt="" style={{ objectPosition: q.focus }} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
+      )}
+
+      <div className="saver__veil" />
+      <div className="saver__text">
+        <div className="saver__clock">{now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' })}</div>
+        <AnimatePresence mode="wait">
+          <motion.div key={i} className="saver__line" initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}>
+            {p && saverStyle !== 'polaroid' ? `${p.title} · ${line}` : line}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+    </motion.div>
   );
 }
 
@@ -227,7 +187,7 @@ export function NotificationScheduler() {
       t = window.setTimeout(
         () => {
           const ui = useUI.getState();
-          if (useSettings.getState().notifications && !ui.screensaver && !ui.lightbox && document.visibilityState === 'visible') {
+          if (useSettings.getState().notifications && !ui.screensaver && !ui.viewer && !ui.slideshow && document.visibilityState === 'visible') {
             let idx = Math.floor(Math.random() * randomNotes.length);
             if (idx === last) idx = (idx + 1) % randomNotes.length;
             last = idx;

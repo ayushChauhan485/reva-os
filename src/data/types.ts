@@ -22,28 +22,11 @@ export interface Testimony {
   source: string;
 }
 
-export type AssetKey =
-  | 'archiveHero'
-  | 'bowlingMain'
-  | 'bowlingAlternative'
-  | 'bowlingLanes'
-  | 'lakeDay'
-  | 'portraitGoldenHour'
-  | 'portraitRooftop'
-  | 'portraitIncubator'
-  | 'portraitSunglasses'
-  | 'bouquetHandmade';
+/** A photo id from src/data/photoLibrary.ts (the media-index id, e.g. "P12"). */
+export type PhotoId = string;
 
-export interface Photo {
-  key: AssetKey;
-  src: string;
-  thumb: string;
-  width: number;
-  height: number;
-  alt: string;
-  caption?: string;
-  date?: string;
-}
+/** Use in a messages list to show that lines in between were left out. */
+export const GAP = '…';
 
 export interface Memory {
   id: string;
@@ -54,10 +37,12 @@ export interface Memory {
   title: string;
   /** Editorial intro written by Ruru. Short lines, shown one per row. */
   intro: string[];
-  messages?: string[]; // ChatMessage ids, shown in order
+  messages?: string[]; // ChatMessage ids in chat order; GAP marks omitted lines
+  /** verifiedFacts ids backing this memory */
+  factIds: string[];
   /** A quieter note that has to be opened deliberately (27.04). */
   sealed?: { label: string; messageIds: string[]; note?: string };
-  photos?: AssetKey[];
+  photos?: PhotoId[];
   place?: string;
   tags: string[];
 }
@@ -71,7 +56,11 @@ export interface Flower {
   story: string;
   messages?: string[];
   date?: string;
-  photo?: AssetKey;
+  photo?: PhotoId;
+  /** a photo of the pipe-cleaner version, labelled as handmade */
+  handmadePhoto?: PhotoId;
+  /** making-of photos in date order */
+  timeline?: PhotoId[];
   /** Filled when a real photo is still to be supplied. */
   photoPlaceholder?: string;
   art: 'white-lily' | 'tiger-lily' | 'poppy' | 'white-memoir' | 'wildflower' | 'handmade';
@@ -90,7 +79,7 @@ export interface DictionaryEntry {
   after?: string[];
   /** Ruru's editorial definition. Always shown as an editor's note. */
   definition: string;
-  photo?: AssetKey;
+  photo?: PhotoId;
 }
 
 export type DictionaryCategory =
@@ -108,8 +97,10 @@ export interface CalendarEvent {
   title: string;
   description: string;
   memoryId?: string;
-  photo?: AssetKey;
+  /** only photos with a confirmed association to this date */
+  photos?: PhotoId[];
   kind: 'meeting' | 'memory' | 'milestone';
+  factIds: string[];
 }
 
 export type TrophyStyle =
@@ -140,7 +131,9 @@ export interface RevaAward {
   /** Ruru's editorial jokes. Never presented as anyone else's words. */
   juryNotes?: string[];
   evidenceDate?: string;
-  image?: AssetKey;
+  image?: PhotoId;
+  /** extra photographs shown as a small gallery/montage */
+  gallery?: PhotoId[];
   trophyStyle: TrophyStyle;
   /** false = hidden until an easter egg unlocks it */
   isUnlocked: boolean;

@@ -14,6 +14,7 @@ import './styles/base.css';
 import './styles/os.css';
 import './styles/apps.css';
 import './styles/awards.css';
+import './styles/photos.css';
 import App from './App';
 
 createRoot(document.getElementById('root')!).render(

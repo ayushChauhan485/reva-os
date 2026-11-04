@@ -1,8 +1,8 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { ArrowLeft, ChevronRight, Dices, Search, Star } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { ChatBubble, HiddenPuffer, Img } from '../../components/common';
-import { photo } from '../../data/assets';
+import { ChatThread, HiddenPuffer, Img, openPhotos } from '../../components/common';
+import { dateLabel, getPhoto, photoSrc, viewablePhotos } from '../../lib/photos';
 import { msg } from '../../data/curatedContent';
 import { archiveIntro, dotDate, memories, memoryById, months } from '../../data/memories';
 import type { Memory } from '../../data/types';
@@ -10,8 +10,6 @@ import { useIsTouch } from '../../lib/hooks';
 import { play } from '../../lib/sound';
 import { useDesktop } from '../../store/desktopStore';
 import { useProgress } from '../../store/progressStore';
-import { useUI } from '../../store/uiStore';
-import { photos } from '../../data/assets';
 
 /** A location in the archive: [] = root, ['2026'], ['2026','MAY'], or a memory. */
 type Loc = { path: string[]; memory?: string; view?: 'favourites' };
@@ -173,7 +171,7 @@ function RootView({ onOpen }: { onOpen: () => void }) {
   return (
     <div className="archive__root">
       <figure className="archive__hero">
-        <Img asset="archiveHero" full openable />
+        <Img id="P20" full openable />
         <figcaption>{archiveIntro.heroCaption}</figcaption>
       </figure>
       <div className="archive__intro">
@@ -204,7 +202,8 @@ function FolderGrid({ items, onOpen, empty }: { items: Item[]; onOpen: (it: Item
     <div className="fgrid" role="listbox" aria-label="Folder contents">
       {items.map((it, i) => {
         const name = it.kind === 'folder' ? it.name : it.memory.folderName;
-        const thumb = it.kind === 'memory' && it.memory.photos?.[0] ? photo(it.memory.photos[0]) : null;
+        const tp = it.kind === 'memory' && it.memory.photos?.[0] ? getPhoto(it.memory.photos[0]) : undefined;
+        const thumb = tp ? photoSrc(tp, { thumb: true }) : null;
         return (
           <button
             key={name}
@@ -220,7 +219,7 @@ function FolderGrid({ items, onOpen, empty }: { items: Item[]; onOpen: (it: Item
             {it.kind === 'folder' && <span className="fgrid__meta">{it.count} items</span>}
             {it.kind === 'memory' && (
               <span className="preview" role="tooltip">
-                {thumb && <img src={thumb.thumb} alt="" />}
+                {thumb && <img src={thumb} alt="" />}
                 <b>{it.memory.title}</b>
                 <span>{it.memory.intro[0]}</span>
                 <i>{dotDate(it.memory.date)}</i>
@@ -248,8 +247,10 @@ function MemoryView({ memory }: { memory: Memory }) {
   const [revealed, setRevealed] = useState(false);
   const [sealedOpen, setSealedOpen] = useState(false);
   const fav = useProgress((s) => s.favourites.includes(memory.id));
-  const touch = useIsTouch();
-  const group = photos(memory.photos ?? []);
+  const ok = new Set(viewablePhotos().map((p) => p.id));
+  const group = (memory.photos ?? []).filter((id) => ok.has(id)).map((id) => getPhoto(id)!);
+  const ids = group.map((p) => p.id);
+  const albumId = group[0]?.albumIds.find((a) => a === 'bowling' || a === 'beginnings' || a === 'flowers');
 
   return (
     <article className="memory">
@@ -296,33 +297,37 @@ function MemoryView({ memory }: { memory: Memory }) {
       {memory.messages && (
         <section className="memory__chat" aria-label="Messages">
           <div className="tag">original messages</div>
-          {memory.messages.map((id) => (
-            <ChatBubble key={id} id={id} />
-          ))}
+          <ChatThread ids={memory.messages} />
         </section>
       )}
 
-      {group.length > 0 && (
+      {group.length > 0 ? (
         <section className="memory__photos" aria-label="Photographs">
-          <div className="tag">photographs · {touch ? 'tap' : 'double-click'} to view</div>
-          <div className={`memory__photo-grid memory__photo-grid--${Math.min(group.length, 3)}`}>
-            {group.map((p, i) => (
-              <figure key={p.key}>
-                <button
-                  className="img-btn"
-                  aria-label={`View photo: ${p.alt}`}
-                  onClick={() => touch && useUI.getState().openLightbox(group, i)}
-                  onDoubleClick={() => useUI.getState().openLightbox(group, i)}
-                  onKeyDown={(e) => e.key === 'Enter' && useUI.getState().openLightbox(group, i)}
-                >
-                  <img src={p.thumb} alt={p.alt} loading="lazy" />
+          <div className="memory__photos-head">
+            <div className="tag">photographs · click to view</div>
+            {albumId && (
+              <button className="btn btn--sm btn--ghost" onClick={() => useDesktop.getState().open('photos', { albumId })}>
+                Open the album in photos.exe →
+              </button>
+            )}
+          </div>
+          <div className="photostrip">
+            {group.map((p) => (
+              <figure key={p.id} className="photostrip__frame">
+                <button className="img-btn" aria-label={`View photo: ${p.title}`} onClick={() => openPhotos(ids, p.id)}>
+                  <img src={photoSrc(p, { thumb: true }) ?? ''} alt={p.description ?? p.title} loading="lazy" style={{ objectPosition: p.focus }} />
                 </button>
                 <figcaption>
-                  {p.caption} <span>{p.date}</span>
+                  {p.title} <span>{dateLabel(p).text}</span>
                 </figcaption>
               </figure>
             ))}
           </div>
+        </section>
+      ) : (
+        <section className="memory__nophoto">
+          <span className="mono">NO PHOTOGRAPH ON RECORD</span>
+          <span>This memory is kept in words. Nothing has been borrowed to illustrate it.</span>
         </section>
       )}
 

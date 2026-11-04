@@ -14,6 +14,8 @@ export interface CommandResult {
     | { type: 'open'; app: AppId; memoryId?: string }
     | { type: 'clear' }
     | { type: 'pufferfish' }
+    | { type: 'photo' }
+    | { type: 'develop' }
     | { type: 'close' };
 }
 
@@ -164,6 +166,18 @@ export const commands: Record<string, { help: string; run: (arg: string) => Comm
       return { lines: [l(`Launching ${apps[id].file}...`, 'dim')], action: { type: 'open', app: id } };
     },
   },
+  photo: {
+    help: 'pull a random photograph',
+    run: () => ({ lines: [l('Fetching a frame from the library...', 'dim')], action: { type: 'photo' } }),
+  },
+  develop: {
+    help: 'hidden',
+    run: () => ({
+      slow: true,
+      lines: [l('Opening the darkroom...', 'dim'), l('Developer: ready. Fixer: ready.', 'dim'), l('One photograph is coming up in photos.exe.', 'ok')],
+      action: { type: 'develop' },
+    }),
+  },
   play: {
     help: 'something is hiding in lost+found',
     run: () => ({ lines: [l('Mounting lost+found...', 'dim')], action: { type: 'open', app: 'lostfound' } }),
@@ -175,14 +189,15 @@ export const commands: Record<string, { help: string; run: (arg: string) => Comm
   'i-love-you': { help: 'hidden', run: () => ({ lines: [l('Message delivered. Response cached since 06.05.2026.', 'ok')] }) },
 };
 
-const hidden = new Set(['sudo', 'i-love-you']);
+const hidden = new Set(['sudo', 'i-love-you', 'develop']);
 
-const openable = ['archive', 'flowers', 'dictionary', 'calendar', 'awards', 'classified', 'settings'];
+const openable = ['archive', 'photos', 'flowers', 'dictionary', 'calendar', 'awards', 'classified', 'settings'];
 
 function resolveApp(arg: string): AppId | null {
   const a = arg.trim().toLowerCase().replace(/\.exe$/, '');
   const alias: Record<string, AppId> = {
     archive: 'archive', our_archive: 'archive',
+    photos: 'photos', photo: 'photos', library: 'photos',
     flowers: 'flowers', flower: 'flowers',
     dictionary: 'dictionary', reva_isms: 'dictionary',
     calendar: 'calendar', the_27th: 'calendar', '27th': 'calendar',
@@ -194,7 +209,7 @@ function resolveApp(arg: string): AppId | null {
   return alias[a] ?? null;
 }
 
-export const suggestions = ['help', '/why-reva', '/first-date', '/goodnight', '/pufferfish', '/random-memory', '/flowers', '/about-ruru'];
+export const suggestions = ['help', '/why-reva', '/first-date', '/goodnight', '/pufferfish', '/photo', '/random-memory', '/flowers', '/about-ruru'];
 
 export function runCommand(input: string): CommandResult {
   const raw = input.trim();

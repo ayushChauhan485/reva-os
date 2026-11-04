@@ -23,14 +23,14 @@ export interface WindowState extends Rect {
 }
 
 /** Per-app payloads, e.g. "open the archive at this memory". */
-export type Intent = { app: AppId; memoryId?: string; nonce: number };
+export type Intent = { app: AppId; memoryId?: string; albumId?: string; nonce: number };
 
 interface DesktopState {
   windows: Partial<Record<AppId, WindowState>>;
   focused: AppId | null;
   topZ: number;
   intent: Intent | null;
-  open: (id: AppId, opts?: { memoryId?: string }) => void;
+  open: (id: AppId, opts?: { memoryId?: string; albumId?: string }) => void;
   close: (id: AppId) => void;
   focus: (id: AppId) => void;
   minimize: (id: AppId) => void;
@@ -74,7 +74,7 @@ export const useDesktop = create<DesktopState>()((set, get) => ({
     const { windows, topZ } = get();
     const existing = windows[id];
     const z = topZ + 1;
-    const intent = opts?.memoryId ? { app: id, memoryId: opts.memoryId, nonce: Date.now() } : get().intent;
+    const intent = opts?.memoryId || opts?.albumId ? { app: id, memoryId: opts.memoryId, albumId: opts.albumId, nonce: Date.now() } : get().intent;
     if (existing) {
       if (existing.minimized) play('open');
       set({

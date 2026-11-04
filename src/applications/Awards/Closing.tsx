@@ -86,7 +86,7 @@ export function Closing() {
             ) : (
               <motion.div className="special__card" initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.9 }}>
                 <div className="special__photo">
-                  <Img asset={specialRecognition.image} openable />
+                  <Img id={specialRecognition.image} openable />
                 </div>
                 <div className="special__text">
                   {hasDedication ? (

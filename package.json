@@ -11,7 +11,10 @@
     "lint": "oxlint",
     "assets": "node scripts/prepare-assets.mjs",
     "verify-quotes": "node scripts/verify-quotes.mjs",
-    "check-content": "node scripts/check-content.mjs"
+    "check-content": "node scripts/check-content.mjs",
+    "verify-facts": "node scripts/verify-facts.mjs",
+    "count-pufferfish": "node scripts/count-pufferfish.mjs",
+    "contact-sheet": "node scripts/contact-sheet.mjs"
   },
   "dependencies": {
     "@fontsource-variable/dm-sans": "^5.3.0",

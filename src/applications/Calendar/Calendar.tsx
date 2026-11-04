@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { ChevronLeft, ChevronRight, Lock } from 'lucide-react';
 import { useMemo, useState } from 'react';
-import { HiddenPuffer, Img } from '../../components/common';
+import { ChatThread, HiddenPuffer, Img } from '../../components/common';
 import { today } from '../../config';
 import { calendarCopy, calendarEvents, calendarRange } from '../../data/calendar';
 import { msg, senderLabel } from '../../data/curatedContent';
@@ -60,6 +60,10 @@ export default function Calendar() {
           <figcaption>
             {senderLabel[featured.sender]} · {featured.date.replace(/\//g, '.')}
           </figcaption>
+          <div className="cal__origin">
+            <span className="tag">club origin</span>
+            <ChatThread ids={calendarCopy.originIds} compact />
+          </div>
         </figure>
       </header>
 
@@ -155,7 +159,19 @@ function EventCard({ e }: { e: CalendarEvent }) {
       <div className="tag">{e.kind === 'meeting' ? '27th club meeting' : e.kind === 'milestone' ? 'milestone' : 'memory'}</div>
       <h4>{e.title}</h4>
       <p>{e.description}</p>
-      {e.photo && <Img asset={e.photo} openable className="cal__photo" />}
+      {e.kind !== 'milestone' &&
+        (e.photos?.length ? (
+          <div className="cal__photos">
+            {e.photos.map((id) => (
+              <Img key={id} id={id} openable group={e.photos} className="cal__photo" />
+            ))}
+          </div>
+        ) : (
+          <div className="cal__nophoto">
+            <span className="mono">{dotDate(e.date)}</span>
+            <span>No photograph on record for this day.</span>
+          </div>
+        ))}
       {e.memoryId && (
         <button className="btn btn--sm" onClick={() => useDesktop.getState().open('archive', { memoryId: e.memoryId })}>
           Open in archive →

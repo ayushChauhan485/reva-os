@@ -1,22 +1,23 @@
 // Site-wide settings you may want to change without touching components.
-import type { AssetKey } from './data/types';
+export type WallpaperId = 'paper' | 'powder' | 'night';
 
-export type WallpaperId = 'paper' | 'powder' | 'night' | 'photo-golden' | 'photo-archive';
-
-export const wallpapers: { id: WallpaperId; label: string; photo?: AssetKey }[] = [
+/** Pattern wallpapers. Any photo can also be set as wallpaper from photos.exe. */
+export const wallpapers: { id: WallpaperId; label: string }[] = [
   { id: 'paper', label: 'Cream paper' },
   { id: 'powder', label: 'Powder blue' },
   { id: 'night', label: 'After midnight' },
-  { id: 'photo-golden', label: 'Golden hour (photo)', photo: 'portraitGoldenHour' },
-  { id: 'photo-archive', label: 'The archivist (photo)', photo: 'archiveHero' },
 ];
 
 export const config = {
   userName: 'Reva',
   makerName: 'Ruru',
   version: '21.0',
-  /** Default wallpaper. Swap to a photo id from `wallpapers` above. */
+  /** Default wallpaper pattern. */
   wallpaper: 'paper' as WallpaperId,
+  /** Default photo wallpaper (photo id + mode), or null for the pattern. */
+  wallpaperPhoto: null as null | { id: string; mode: 'fill' | 'fit' | 'centre' | 'blur' },
+  /** Photos of the two of you (album 02 and couple photos elsewhere). Turn off for a public version. */
+  showPrivateAlbums: true,
   /** Seconds of inactivity before the screensaver (only when no window is open). */
   screensaverAfter: 50,
   /** Random notification spacing, in seconds. */

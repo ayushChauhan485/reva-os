@@ -39,6 +39,8 @@ export const dictionary: DictionaryEntry[] = [
     quote: { kind: 'chat', id: 'm-0605-2din' },
     context: ['m-0605-ilyt'],
     definition: 'Unit of time. Confirms that the feeling arrived before the announcement did.',
+    // same day: 6 May 2026, the bowling day
+    photo: 'P12',
   },
   {
     id: 'date',

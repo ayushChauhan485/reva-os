@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
 import { Confetti } from '../../components/Confetti';
+import { Img } from '../../components/common';
 import { pollCopy, polls } from '../../data/awards';
 import { play } from '../../lib/sound';
 import { useProgress } from '../../store/progressStore';
@@ -13,6 +14,11 @@ export function Voting() {
         <div className="lobby__kicker">THE PEOPLE’S CHOICE AWARDS</div>
         <h2>The people have a voice.</h2>
         <p>The people are you. Your vote will be counted, independently, by Ruru.</p>
+        <div className="voting__gallery" aria-label="The nominee, in several outfits">
+          {['P19', 'P08', 'P04', 'P03', 'P20'].map((id) => (
+            <Img key={id} id={id} openable group={['P19', 'P08', 'P04', 'P03', 'P20']} />
+          ))}
+        </div>
       </header>
       <div className="polls">
         {polls.map((p) => (

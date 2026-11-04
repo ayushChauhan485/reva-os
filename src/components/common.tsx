@@ -1,63 +1,89 @@
 // Small shared pieces: photos with fallbacks, chat bubbles, hidden pufferfish.
 import { useState, type CSSProperties } from 'react';
-import { photo as getPhoto, photos as getPhotos } from '../data/assets';
 import { msg, senderLabel, testimony } from '../data/curatedContent';
-import type { AssetKey } from '../data/types';
+import { GAP, type PhotoId } from '../data/types';
 import type { HiddenSpot } from '../data/easterEggs';
 import { hiddenPufferfish } from '../data/easterEggs';
+import { getPhoto, isDeveloped, photoSize, photoSrc, SECRET_BY_EGG, viewablePhotos } from '../lib/photos';
 import { useProgress } from '../store/progressStore';
 import { useUI } from '../store/uiStore';
 import { play } from '../lib/sound';
 import { Pufferfish } from './AppIcon';
 
+/** A registry photo. `openable` opens the shared viewer; `group` pages through siblings. */
 export function Img({
-  asset,
+  id,
   full = false,
   className,
   style,
   openable,
   group,
 }: {
-  asset: AssetKey;
+  id: PhotoId;
   full?: boolean;
   className?: string;
   style?: CSSProperties;
-  /** Open in the lightbox on click/Enter. Pass `group` to page through siblings. */
   openable?: boolean;
-  group?: AssetKey[];
+  group?: PhotoId[];
 }) {
-  const p = getPhoto(asset);
+  const p = getPhoto(id);
+  const developed = useProgress((s) => s.developed);
   const [broken, setBroken] = useState(false);
-  if (!p || broken) {
+  const src = p ? photoSrc(p, { thumb: !full }) : null;
+  if (!p || !src || broken) {
     return (
       <div className={`placeholder-box ${className ?? ''}`} style={{ display: 'grid', placeItems: 'center', minHeight: 120, ...style }}>
-        Photo missing: {asset}
+        Photo missing: {id}
         <br />
         run npm run assets
       </div>
     );
   }
+  if (!isDeveloped(p, developed)) return <div className={`undeveloped ${className ?? ''}`} style={style} aria-label="An undeveloped photograph" />;
+  const size = photoSize(p);
   const img = (
     <img
-      src={full ? p.src : p.thumb}
-      alt={p.alt}
-      width={p.width}
-      height={p.height}
+      src={src}
+      alt={p.description ?? p.title}
+      width={size.w}
+      height={size.h}
       loading="lazy"
       decoding="async"
       className={className}
-      style={style}
+      style={{ objectPosition: p.focus, ...style }}
       onError={() => setBroken(true)}
       draggable={false}
     />
   );
   if (!openable) return img;
-  const items = getPhotos(group ?? [asset]);
-  const index = Math.max(0, items.findIndex((x) => x.key === asset));
   return (
-    <button className="img-btn" aria-label={`Open photo: ${p.alt}`} onClick={() => useUI.getState().openLightbox(items, index)}>
+    <button className="img-btn" aria-label={`Open photo: ${p.title}`} onClick={() => openPhotos(group ?? [id], id)}>
       {img}
     </button>
+  );
+}
+
+/** Opens the viewer on `id`, paging through `ids` (only viewable ones). */
+export function openPhotos(ids: PhotoId[], id?: PhotoId) {
+  const ok = new Set(viewablePhotos().map((p) => p.id));
+  const list = ids.filter((x) => ok.has(x));
+  useUI.getState().openViewer(list, Math.max(0, id ? list.indexOf(id) : 0));
+}
+
+/** A run of chat messages; GAP entries render as "lines omitted". */
+export function ChatThread({ ids, compact }: { ids: string[]; compact?: boolean }) {
+  return (
+    <>
+      {ids.map((id, i) =>
+        id === GAP ? (
+          <div key={`gap${i}`} className="bubble-gap" aria-label="messages omitted">
+            · · ·
+          </div>
+        ) : (
+          <ChatBubble key={id} id={id} compact={compact} />
+        ),
+      )}
+    </>
   );
 }
 
@@ -100,9 +126,10 @@ export function HiddenPuffer({ spot, style }: { spot: HiddenSpot; style?: CSSPro
         const n = useProgress.getState().findHidden(spot);
         if (n === null) return;
         const total = hiddenPufferfish.length;
+        if (n === total) useProgress.getState().develop(SECRET_BY_EGG.pufferfish);
         useUI.getState().notify(
           n === total
-            ? { title: `All ${total} hidden pufferfish found.`, body: 'The fish are impressed. The fish are rarely impressed.', icon: 'puffer' }
+            ? { title: `All ${total} hidden pufferfish found.`, body: 'A photograph has developed in photos.exe.', icon: 'puffer', app: 'photos' }
             : { title: `Hidden pufferfish spotted (${n}/${total}).`, body: 'There are more of us.', icon: 'puffer' },
           { force: true },
         );

@@ -1,0 +1,186 @@
+{
+  "P01": {
+    "file": "p01",
+    "w": 780,
+    "h": 1040
+  },
+  "P02": {
+    "file": "p02",
+    "w": 1280,
+    "h": 960
+  },
+  "P03": {
+    "file": "p03",
+    "w": 900,
+    "h": 1600
+  },
+  "P04": {
+    "file": "p04",
+    "w": 2268,
+    "h": 4032
+  },
+  "P07": {
+    "file": "p07",
+    "w": 720,
+    "h": 1280
+  },
+  "P08": {
+    "file": "p08",
+    "w": 1600,
+    "h": 1200
+  },
+  "P09": {
+    "file": "p09",
+    "w": 1600,
+    "h": 1200
+  },
+  "P11": {
+    "file": "p11",
+    "w": 1600,
+    "h": 1200,
+    "edit": {
+      "w": 1600,
+      "h": 1000,
+      "removes": "bottom strip with the camera date stamp '01/01/2007' (camera clock reset, not a real date)",
+      "approved": true
+    }
+  },
+  "P12": {
+    "file": "p12",
+    "w": 1200,
+    "h": 1600,
+    "edit": {
+      "w": 878,
+      "h": 1220,
+      "removes": "a person in the background (left) and the camera date stamp '06/05/2016' (top right)",
+      "approved": false
+    }
+  },
+  "P13": {
+    "file": "p13",
+    "w": 1600,
+    "h": 1200,
+    "edit": {
+      "w": 1600,
+      "h": 1000,
+      "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
+      "approved": true
+    }
+  },
+  "P14": {
+    "file": "p14",
+    "w": 1600,
+    "h": 1200,
+    "edit": {
+      "w": 1600,
+      "h": 1000,
+      "removes": "bottom strip with the camera date stamp '06/05/2016' (wrong year)",
+      "approved": true
+    }
+  },
+  "P15": {
+    "file": "p15",
+    "w": 780,
+    "h": 1040
+  },
+  "P16": {
+    "file": "p16",
+    "w": 868,
+    "h": 1156
+  },
+  "P17": {
+    "file": "p17",
+    "w": 1200,
+    "h": 1600
+  },
+  "P19": {
+    "file": "p19",
+    "w": 1200,
+    "h": 1600
+  },
+  "P20": {
+    "file": "p20",
+    "w": 1200,
+    "h": 1600
+  },
+  "P23": {
+    "file": "p23",
+    "w": 1200,
+    "h": 1600
+  },
+  "P26": {
+    "file": "p26",
+    "w": 1600,
+    "h": 900
+  },
+  "P31": {
+    "file": "p31",
+    "w": 900,
+    "h": 1600
+  },
+  "P32": {
+    "file": "p32",
+    "w": 1280,
+    "h": 960
+  },
+  "BQ-P01": {
+    "file": "bq-p01",
+    "w": 1599,
+    "h": 899
+  },
+  "BQ-HD1": {
+    "file": "bq-hd1",
+    "w": 4096,
+    "h": 2304
+  },
+  "BQ-HD2": {
+    "file": "bq-hd2",
+    "w": 4096,
+    "h": 2304
+  },
+  "BQ-HD3": {
+    "file": "bq-hd3",
+    "w": 4096,
+    "h": 2304
+  },
+  "BQ-HD4": {
+    "file": "bq-hd4",
+    "w": 4096,
+    "h": 2304
+  },
+  "BQ-F0912": {
+    "file": "bq-f0912",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0914a": {
+    "file": "bq-f0914a",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0914b": {
+    "file": "bq-f0914b",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0919": {
+    "file": "bq-f0919",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0921": {
+    "file": "bq-f0921",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0922": {
+    "file": "bq-f0922",
+    "w": 848,
+    "h": 474
+  },
+  "BQ-F0923": {
+    "file": "bq-f0923",
+    "w": 848,
+    "h": 474
+  }
+}

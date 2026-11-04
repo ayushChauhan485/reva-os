@@ -1,0 +1,19 @@
+{
+  "total": 146,
+  "messagesWithPuffer": 146,
+  "inGoodnights": 133,
+  "bySender": {
+    "Revaa": 146
+  },
+  "first": {
+    "date": "29/04/2026",
+    "time": "02:23",
+    "sender": "Revaa",
+    "text": "Good nightt ruru 🐡"
+  },
+  "exportEnds": "02/10/2026 19:16",
+  "definitions": {
+    "total": "every 🐡 character in every message",
+    "inGoodnights": "🐡 characters inside messages matching /\\bg(?:oo+|u)d+\\s*-?\\s*ni|\\bg+n+\\b|\\bni+g+h+t+y*\\b|\\bshubh\\s*ratri/i"
+  }
+}

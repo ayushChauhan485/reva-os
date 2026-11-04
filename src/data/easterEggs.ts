@@ -1,6 +1,7 @@
 // Notifications, pufferfish lines, screensaver captions and boot copy.
 // All editorial. Facts used here are verified in curatedContent.ts.
 import type { AppId } from './apps';
+import { pufferfishStats as pf } from './curatedContent.ts';
 
 export interface SystemNote {
   title: string;
@@ -30,16 +31,18 @@ export const randomNotes: SystemNote[] = [
   { title: 'Warning: too much main character energy detected.', body: 'System stable. Barely.' },
   { title: 'Flower Department has a new entry.', body: 'Species: under review.', app: 'flowers' },
   { title: 'The Reva Academy is ready to announce its decisions.', body: 'Envelopes are sealed. Seats are warm.', app: 'awards' },
-  { title: 'Pufferfish census complete.', body: '146 counted. All of them yours.' },
+  { title: 'Pufferfish census complete.', body: `${pf.total} counted. All of them yours.` },
+  { title: 'Photo of the day has changed.', body: 'Something from the library is on the desktop.', app: 'photos' },
+  { title: 'The Wall of Reva has been rearranged.', body: 'Nobody touched it. Probably.', app: 'photos' },
   { title: 'Calendar reminder.', body: 'There is always another 27th coming.', app: 'calendar' },
 ];
 
 export const pufferLines = [
   '🐡 blub.',
   '🐡 Just checking in. Carry on.',
-  '🐡 First seen: 29.04.2026, 02:23.',
-  '🐡 146 of us. All sent by you.',
-  '🐡 Ruru has sent zero of us. Make of that what you will.',
+  `🐡 First seen: ${pf.firstSeen.date.replace(/\//g, '.')}, ${pf.firstSeen.time}.`,
+  `🐡 ${pf.total} of us. All sent by you.`,
+  pf.sentByRuru === 0 ? '🐡 Ruru has sent zero of us. Make of that what you will.' : `🐡 Ruru has sent ${pf.sentByRuru} of us.`,
   '🐡 *puffs up importantly*',
   '🐡 The terminal knows more. Try /pufferfish.',
 ];
@@ -47,7 +50,7 @@ export const pufferLines = [
 export const screensaverLines = [
   'REVA.EXE is resting.',
   'Every day spent with you is a date.',
-  '146 pufferfish and counting.',
+  `${pf.total} pufferfish and counting.`,
   'Some dates are still waiting to happen.',
   'Touch anything to come back.',
 ];

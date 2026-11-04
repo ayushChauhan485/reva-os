@@ -1,9 +1,9 @@
 // Transient UI: toasts, the notification centre, the lightbox, the pufferfish.
 import { create } from 'zustand';
 import type { AppId } from '../data/apps';
-import type { Photo } from '../data/types';
 import { play } from '../lib/sound';
 import { useSettings } from './settingsStore';
+import { useProgress } from './progressStore';
 
 export interface Toast {
   id: number;
@@ -18,7 +18,9 @@ interface UIState {
   toasts: Toast[];
   history: Toast[];
   unread: number;
-  lightbox: { items: Photo[]; index: number } | null;
+  /** the shared photo viewer: ids from the registry */
+  viewer: { ids: string[]; index: number; random?: boolean } | null;
+  slideshow: { source: string; startId?: string } | null;
   pufferSummon: number;
   screensaver: boolean;
   bootKey: number;
@@ -26,9 +28,11 @@ interface UIState {
   dismiss: (id: number) => void;
   markRead: () => void;
   clearHistory: () => void;
-  openLightbox: (items: Photo[], index?: number) => void;
-  setLightboxIndex: (i: number) => void;
-  closeLightbox: () => void;
+  openViewer: (ids: string[], index?: number, opts?: { random?: boolean }) => void;
+  setViewerIndex: (i: number) => void;
+  closeViewer: () => void;
+  openSlideshow: (source: string, startId?: string) => void;
+  closeSlideshow: () => void;
   summonPufferfish: () => void;
   setScreensaver: (on: boolean) => void;
   reboot: () => void;
@@ -40,7 +44,8 @@ export const useUI = create<UIState>()((set, get) => ({
   toasts: [],
   history: [],
   unread: 0,
-  lightbox: null,
+  viewer: null,
+  slideshow: null,
   pufferSummon: 0,
   screensaver: false,
   bootKey: 0,
@@ -59,14 +64,22 @@ export const useUI = create<UIState>()((set, get) => ({
   markRead: () => set({ unread: 0 }),
   clearHistory: () => set({ history: [], unread: 0 }),
 
-  openLightbox: (items, index = 0) => items.length && set({ lightbox: { items, index } }),
-  setLightboxIndex: (i) => {
-    const lb = get().lightbox;
-    if (!lb) return;
-    const n = lb.items.length;
-    set({ lightbox: { ...lb, index: (i + n) % n } });
+  openViewer: (ids, index = 0, opts) => {
+    if (!ids.length) return;
+    set({ viewer: { ids, index, random: opts?.random } });
+    useProgress.getState().viewedPhoto(ids[index]);
   },
-  closeLightbox: () => set({ lightbox: null }),
+  setViewerIndex: (i) => {
+    const v = get().viewer;
+    if (!v) return;
+    const n = v.ids.length;
+    const index = (i + n) % n;
+    set({ viewer: { ...v, index } });
+    useProgress.getState().viewedPhoto(v.ids[index]);
+  },
+  closeViewer: () => set({ viewer: null }),
+  openSlideshow: (source, startId) => set({ slideshow: { source, startId } }),
+  closeSlideshow: () => set({ slideshow: null }),
   summonPufferfish: () => set({ pufferSummon: get().pufferSummon + 1 }),
   setScreensaver: (on) => set({ screensaver: on }),
   reboot: () => set({ bootKey: get().bootKey + 1 }),

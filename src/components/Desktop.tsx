@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { config, today, wallpapers } from '../config';
 import { apps, desktopOrder, type AppId } from '../data/apps';
-import { photo } from '../data/assets';
 import { facts, pufferfishStats } from '../data/curatedContent';
 import { useIsTouch, useNow } from '../lib/hooks';
 import { play } from '../lib/sound';
@@ -10,7 +9,9 @@ import { useProgress } from '../store/progressStore';
 import { useSettings } from '../store/settingsStore';
 import { useUI } from '../store/uiStore';
 import { AppIcon } from './AppIcon';
-import { Img } from './common';
+import { Img, openPhotos } from './common';
+import { getPhoto, photoOfTheDay, photoSrc, randomPhoto, remindRandom, dateLabel, viewablePhotos } from '../lib/photos';
+import { Dices } from 'lucide-react';
 import { awards } from '../data/awards';
 
 function greetingFor(h: number) {
@@ -24,6 +25,10 @@ const ICONS: AppId[] = [...desktopOrder, 'lostfound'];
 
 export function Desktop() {
   const wallpaper = useSettings((s) => s.wallpaper);
+  const wallpaperPhoto = useSettings((s) => s.wallpaperPhoto);
+  const recent = useProgress((s) => s.recentPhotos);
+  const developed = useProgress((s) => s.developed);
+  const [polaroidId, setPolaroidId] = useState(() => randomPhoto()?.id);
   const [selected, setSelected] = useState<AppId | null>(null);
   const [ctx, setCtx] = useState<{ x: number; y: number } | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
@@ -33,8 +38,13 @@ export function Desktop() {
   const revealed = useProgress((s) => s.revealedAwards.filter((id) => awards.some((a) => a.id === id && a.isUnlocked)).length);
 
   const wp = wallpapers.find((w) => w.id === wallpaper) ?? wallpapers[0];
-  const wpPhoto = wp.photo ? photo(wp.photo) : null;
-  const night = wp.id === 'night';
+  const wpPhoto = wallpaperPhoto ? getPhoto(wallpaperPhoto.id) : undefined;
+  const night = !wpPhoto && wp.id === 'night';
+  const potd = photoOfTheDay();
+  const polaroid = polaroidId ? getPhoto(polaroidId) : undefined;
+  const viewable = new Set(viewablePhotos(developed).map((p) => p.id));
+  const recentList = recent.filter((id) => viewable.has(id)).slice(0, 6);
+  const appCount = desktopOrder.filter((id) => apps[id].core).length;
   const days = Math.floor((today().getTime() - new Date(`${facts.firstDate.iso}T00:00:00`).getTime()) / 86_400_000);
   const mainAwards = awards.filter((a) => a.isUnlocked).length;
 
@@ -62,13 +72,16 @@ export function Desktop() {
 
   return (
     <div className={`desktop ${night ? 'desktop--night' : ''}`}>
-      <div
-        className={`wallpaper wallpaper--${wpPhoto ? 'photo' : wp.id}`}
-        style={wpPhoto ? { backgroundImage: `url(${wpPhoto.src})` } : undefined}
-        aria-hidden="true"
-      >
-        <div className="wallpaper__mark">21.0</div>
-      </div>
+      {wpPhoto && wallpaperPhoto ? (
+        <div className={`wallpaper wallpaper--photo wallpaper--${wallpaperPhoto.mode}`} aria-hidden="true">
+          <div className="wallpaper__blur" style={{ backgroundImage: `url(${photoSrc(wpPhoto, { thumb: true })})` }} />
+          <div className="wallpaper__img" style={{ backgroundImage: `url(${photoSrc(wpPhoto)})`, backgroundPosition: wpPhoto.focus ?? 'center' }} />
+        </div>
+      ) : (
+        <div className={`wallpaper wallpaper--${wp.id}`} aria-hidden="true">
+          <div className="wallpaper__mark">21.0</div>
+        </div>
+      )}
 
       <div
         key={refreshKey}
@@ -83,7 +96,7 @@ export function Desktop() {
         onPointerUp={() => longPress.current && clearTimeout(longPress.current)}
         onPointerMove={() => longPress.current && clearTimeout(longPress.current)}
         onContextMenu={(e) => {
-          if ((e.target as HTMLElement).closest('.widget, .icon, .poster, .polaroid')) return;
+          if ((e.target as HTMLElement).closest('.widget, .icon, .poster, .polaroid, .desk-polaroid')) return;
           e.preventDefault();
           setCtx({ x: Math.min(e.clientX, window.innerWidth - 240), y: Math.min(e.clientY, window.innerHeight - 200) });
         }}
@@ -126,9 +139,26 @@ export function Desktop() {
           </h1>
           <p>Your little corner of the internet is ready.</p>
           <div className="greeting__status">
-            <i aria-hidden="true" /> 7 applications available. 1 very specific user.
+            <i aria-hidden="true" /> {appCount} applications available. 1 very specific user.
           </div>
           {!touch && <p className="tag" style={{ marginTop: 14, opacity: 0.7 }}>double-click an icon to open · right-click the desktop for more</p>}
+          {polaroid && (
+            <div className="desk-polaroid">
+              <button className="polaroid" onClick={() => openPhotos([polaroid.id], polaroid.id)} aria-label={`Open ${polaroid.title}`}>
+                <span className="tape" aria-hidden="true" />
+                <Img id={polaroid.id} />
+                <figcaption>{polaroid.title}</figcaption>
+              </button>
+              <div className="desk-polaroid__btns">
+                <button className="btn btn--sm" onClick={() => (play('paper'), setPolaroidId(randomPhoto(polaroid.id)?.id))}>
+                  another
+                </button>
+                <button className="btn btn--sm" onClick={remindRandom}>
+                  <Dices size={13} /> remind me of something
+                </button>
+              </div>
+            </div>
+          )}
         </header>
 
         <aside className="widgets" aria-label="Widgets">
@@ -175,18 +205,52 @@ export function Desktop() {
             </div>
           </section>
 
-          <button className="polaroid" onClick={() => open('archive')} aria-label="Open the archive">
-            <span className="tape" aria-hidden="true" />
-            <Img asset="archiveHero" />
-            <figcaption>from the archive →</figcaption>
-          </button>
+          {potd && (
+            <section className="widget potd">
+              <div className="widget__head">
+                <span>Photo of the day</span>
+                <button className="potd__open" onClick={() => open('photos')}>
+                  library →
+                </button>
+              </div>
+              <button className="potd__img" onClick={() => openPhotos([potd.id], potd.id)} aria-label={`Open ${potd.title}`}>
+                <Img id={potd.id} />
+              </button>
+              <div className="widget__body potd__cap">
+                <b>{potd.title}</b>
+                <span className="mono">{dateLabel(potd).text}</span>
+              </div>
+            </section>
+          )}
+
+          {recentList.length > 0 && (
+            <section className="widget">
+              <div className="widget__head">
+                <span>Recently viewed</span>
+                <span>{recentList.length}</span>
+              </div>
+              <div className="recent">
+                {recentList.map((id) => {
+                  const p = getPhoto(id)!;
+                  return (
+                    <button key={id} className="recent__item" onClick={() => openPhotos(recentList, id)} aria-label={`Open ${p.title}`}>
+                      <img src={photoSrc(p, { thumb: true }) ?? ''} alt="" loading="lazy" style={{ objectPosition: p.focus }} />
+                    </button>
+                  );
+                })}
+              </div>
+            </section>
+          )}
         </aside>
       </div>
 
       {ctx && (
         <div className="dropdown" role="menu" style={{ top: ctx.y, left: ctx.x }}>
-          <button role="menuitem" onClick={() => (setCtx(null), cycleWallpaper())}>
+          <button role="menuitem" onClick={() => (setCtx(null), useSettings.getState().set({ wallpaperPhoto: null }), cycleWallpaper())}>
             Change wallpaper
+          </button>
+          <button role="menuitem" onClick={() => (setCtx(null), useDesktop.getState().open('photos'))}>
+            Pick a photo wallpaper…
           </button>
           <button role="menuitem" onClick={() => (setCtx(null), useDesktop.getState().open('settings'))}>
             Open settings

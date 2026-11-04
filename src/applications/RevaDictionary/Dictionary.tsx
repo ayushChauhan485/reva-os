@@ -1,7 +1,8 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { Dices, Search } from 'lucide-react';
 import { useMemo, useRef, useState } from 'react';
-import { ChatBubble, HiddenPuffer } from '../../components/common';
+import { ChatBubble, HiddenPuffer, Img } from '../../components/common';
+import { dateLabel, getPhoto, randomPhoto } from '../../lib/photos';
 import { msg, senderLabel, testimony } from '../../data/curatedContent';
 import { categories, dictionary } from '../../data/quotes';
 import type { DictionaryCategory, DictionaryEntry } from '../../data/types';
@@ -16,6 +17,8 @@ export default function Dictionary() {
   const [q, setQ] = useState('');
   const [cat, setCat] = useState<DictionaryCategory | 'all'>('all');
   const [flash, setFlash] = useState<string | null>(null);
+  const [withPhoto, setWithPhoto] = useState(false);
+  const [randomPic, setRandomPic] = useState<string | null>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
   const list = useMemo(() => {
@@ -31,6 +34,7 @@ export default function Dictionary() {
     setCat('all');
     const e = dictionary[Math.floor(Math.random() * dictionary.length)];
     setFlash(e.id);
+    setRandomPic(withPhoto ? (randomPhoto()?.id ?? null) : null);
     window.setTimeout(() => {
       document.getElementById(`dict-${e.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 50);
@@ -56,6 +60,9 @@ export default function Dictionary() {
           <button className="btn btn--sm" onClick={random}>
             <Dices size={14} /> Random
           </button>
+          <label className="chip" style={{ cursor: 'pointer' }}>
+            <input type="checkbox" checked={withPhoto} onChange={(e) => setWithPhoto(e.target.checked)} /> + a photo
+          </label>
         </div>
         <div className="dict__cats" role="group" aria-label="Categories">
           <button className="chip" aria-pressed={cat === 'all'} onClick={() => setCat('all')}>
@@ -70,6 +77,15 @@ export default function Dictionary() {
       </header>
 
       <div className="dict__list scroll" ref={listRef}>
+        {randomPic && getPhoto(randomPic) && (
+          <div className="dict__randompic">
+            <Img id={randomPic} openable />
+            <span className="mono">a random photograph to go with it · {getPhoto(randomPic)!.title} · {dateLabel(getPhoto(randomPic)!).text}</span>
+            <button className="btn btn--sm btn--ghost" onClick={() => setRandomPic(null)}>
+              hide
+            </button>
+          </div>
+        )}
         {list.length === 0 && <p className="archive__empty">No entry for “{q}”. Some things about Reva remain undefined.</p>}
         {list.map((e) => (
           <Entry key={e.id} entry={e} flash={flash === e.id} />
@@ -121,6 +137,12 @@ function Entry({ entry, flash }: { entry: DictionaryEntry; flash: boolean }) {
           <ChatBubble key={id} id={id} compact />
         ))}
         <p className="editor-note">{entry.definition}</p>
+        {entry.photo && getPhoto(entry.photo) && (
+          <div className="entry__photo">
+            <Img id={entry.photo} openable />
+            <span className="mono">from the same day · {dateLabel(getPhoto(entry.photo)!).text}</span>
+          </div>
+        )}
       </div>
 
       <div className="entry__react">

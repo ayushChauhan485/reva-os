@@ -3,7 +3,7 @@
 import { AnimatePresence, motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 import { Confetti } from '../../components/Confetti';
-import { photo } from '../../data/assets';
+import { getPhoto, photoSrc } from '../../lib/photos';
 import { play } from '../../lib/sound';
 import { useProgress } from '../../store/progressStore';
 import { useUI } from '../../store/uiStore';
@@ -27,7 +27,8 @@ export default function FindGame() {
   const [miss, setMiss] = useState<{ x: number; y: number; k: number } | null>(null);
   const [fire, setFire] = useState(0);
   const complete = found.length === ITEMS.length;
-  const p20 = photo('archiveHero');
+  const p20 = getPhoto('P20');
+  const p20src = p20 ? photoSrc(p20, { thumb: true }) : null;
 
   const hit = (id: ItemId) => {
     if (found.includes(id)) return;
@@ -187,7 +188,7 @@ export default function FindGame() {
           {/* photograph leaning on the desk */}
           <g data-item>
             {R(112, 112, 13, 15, '#ffffff')}
-            {p20 ? <image href={p20.thumb} x={113} y={113} width={11} height={11} preserveAspectRatio="xMidYMid slice" /> : R(113, 113, 11, 11, '#afc5db')}
+            {p20src ? <image href={p20src} x={113} y={113} width={11} height={11} preserveAspectRatio="xMidYMid slice" /> : R(113, 113, 11, 11, '#afc5db')}
           </g>
           {/* folded message peeking out from under the rug */}
           <g data-item>

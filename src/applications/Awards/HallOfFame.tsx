@@ -31,7 +31,7 @@ export function HallOfFame({ go }: { go: (s: Scene) => void }) {
               <span className="plinth__desc">{a.description}</span>
               {a.image && (
                 <span className="plinth__photo">
-                  <Img asset={a.image} openable />
+                  <Img id={a.image} openable />
                 </span>
               )}
               <button className="ghost-gold" onClick={() => go({ name: 'award', id: a.id })}>

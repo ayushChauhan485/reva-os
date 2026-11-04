@@ -2,6 +2,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { ChatBubble, Img } from '../../components/common';
+import { dateLabel, getPhoto } from '../../lib/photos';
 import { flowers } from '../../data/flowers';
 import type { Flower } from '../../data/types';
 import { play } from '../../lib/sound';
@@ -53,7 +54,8 @@ export default function Flowers() {
                   >
                     <span className="specimen__no">No. {String(i + 1).padStart(2, '0')}</span>
                     <span className="specimen__art">
-                      {f.photo ? <Img asset={f.photo} className="specimen__photo" /> : <FlowerArt art={f.art} size={130} />}
+                      {f.photo ? <Img id={f.photo} className="specimen__photo" /> : <FlowerArt art={f.art} size={130} />}
+                      <span className={`specimen__kind ${f.photo ? 'is-photo' : ''}`}>{f.photo ? 'photograph' : f.photoPlaceholder ? 'illustration · photo pending' : 'illustration'}</span>
                     </span>
                     <span className="specimen__name">{f.name}</span>
                     <span className="specimen__latin">{f.latin}</span>
@@ -77,11 +79,19 @@ function Plate({ flower, onBack }: { flower: Flower; onBack: () => void }) {
       </button>
       <div className="plate__grid">
         <figure className="plate__figure">
-          {flower.photo ? <Img asset={flower.photo} full openable className="plate__photo" /> : <FlowerArt art={flower.art} size={240} />}
+          {flower.photo ? <Img id={flower.photo} full openable group={[flower.photo, ...(flower.timeline ?? [])]} className="plate__photo" /> : <FlowerArt art={flower.art} size={240} />}
           {flower.photoPlaceholder && <div className="placeholder-box" style={{ marginTop: 10 }}>{flower.photoPlaceholder}</div>}
           <figcaption className="mono">
-            {flower.photo ? 'photograph' : 'illustration'} · plate {flower.id}
+            {flower.photo ? `photograph · ${dateLabel(getPhoto(flower.photo)!).text}` : 'illustration, not a photograph'} · plate {flower.id}
           </figcaption>
+          {flower.handmadePhoto && getPhoto(flower.handmadePhoto) && (
+            <div className="plate__handmade">
+              <Img id={flower.handmadePhoto} openable />
+              <span className="mono">
+                the handmade version · pipe cleaner, not a real flower · {dateLabel(getPhoto(flower.handmadePhoto)!).text}
+              </span>
+            </div>
+          )}
         </figure>
         <div className="plate__text">
           <div className="tag">{flower.date}</div>
@@ -99,6 +109,24 @@ function Plate({ flower, onBack }: { flower: Flower; onBack: () => void }) {
               {flower.messages.map((id) => (
                 <ChatBubble key={id} id={id} compact />
               ))}
+            </div>
+          )}
+          {flower.timeline && (
+            <div className="plate__timeline">
+              <div className="tag">how it was made · dated by Ruru’s video files</div>
+              <ol>
+                {flower.timeline.map((id) => {
+                  const p = getPhoto(id);
+                  if (!p) return null;
+                  return (
+                    <li key={id}>
+                      <Img id={id} openable group={flower.timeline} />
+                      <span className="mono">{dateLabel(p).text.replace(' · dated by file', '')}</span>
+                      <b>{p.title}</b>
+                    </li>
+                  );
+                })}
+              </ol>
             </div>
           )}
         </div>

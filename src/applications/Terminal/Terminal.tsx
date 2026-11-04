@@ -4,6 +4,8 @@ import { play } from '../../lib/sound';
 import { useDesktop } from '../../store/desktopStore';
 import { prefersReducedMotion } from '../../store/settingsStore';
 import { useUI } from '../../store/uiStore';
+import { useProgress } from '../../store/progressStore';
+import { remindRandom, SECRET_BY_EGG } from '../../lib/photos';
 
 const BANNER: Line[] = [
   { text: 'RURU TERMINAL · build 21.0', tone: 'accent' },
@@ -54,6 +56,11 @@ export default function Terminal() {
       if (a.type === 'open') window.setTimeout(() => useDesktop.getState().open(a.app, { memoryId: a.memoryId }), 450);
       if (a.type === 'pufferfish') window.setTimeout(() => useUI.getState().summonPufferfish(), 300);
       if (a.type === 'close') window.setTimeout(() => useDesktop.getState().close('terminal'), 700);
+      if (a.type === 'photo') window.setTimeout(remindRandom, 400);
+      if (a.type === 'develop') {
+        const id = SECRET_BY_EGG.terminal;
+        if (useProgress.getState().develop(id)) useUI.getState().notify({ title: 'A photograph has developed.', body: 'Find it in photos.exe → Reva Being Reva.', icon: 'info', app: 'photos' }, { force: true });
+      }
     };
     if (res.slow && !prefersReducedMotion()) {
       setBusy(true);

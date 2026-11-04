@@ -4,6 +4,8 @@ import { config, type WallpaperId } from '../config';
 import { safeStorage } from '../lib/storage';
 
 export type MotionPref = 'system' | 'reduced' | 'full';
+export type WallpaperMode = 'fill' | 'fit' | 'centre' | 'blur';
+export type SaverStyle = 'filmstrip' | 'polaroid' | 'drift';
 
 interface SettingsState {
   sound: boolean;
@@ -13,6 +15,12 @@ interface SettingsState {
   screensaver: boolean;
   pufferfish: boolean;
   wallpaper: WallpaperId;
+  wallpaperPhoto: { id: string; mode: WallpaperMode } | null;
+  /** 'all' | 'favourites' | an album id */
+  saverSource: string;
+  saverStyle: SaverStyle;
+  saverShuffle: boolean;
+  saverSound: boolean;
   set: (patch: Partial<Omit<SettingsState, 'set'>>) => void;
 }
 
@@ -26,6 +34,11 @@ export const useSettings = create<SettingsState>()(
       screensaver: true,
       pufferfish: true,
       wallpaper: config.wallpaper,
+      wallpaperPhoto: config.wallpaperPhoto,
+      saverSource: 'all',
+      saverStyle: 'polaroid',
+      saverShuffle: true,
+      saverSound: false,
       set: (patch) => set(patch),
     }),
     { name: 'revaos.settings', storage: safeStorage },

@@ -2,7 +2,7 @@
 // This is yours to write. Each string in `paragraphs` becomes one paragraph.
 // While `paragraphs` is empty, the letter shows a clearly marked placeholder
 // and `npm run check-content` lists it as unfinished.
-import type { AssetKey } from './types';
+import type { PhotoId } from './types';
 
 export const letter = {
   /** Shown above the letter in Ruru's real handwriting (image). */
@@ -12,7 +12,7 @@ export const letter = {
   paragraphs: [] as string[],
   signature: 'Ruru 🐡',
   /** Optional photo shown with the letter. */
-  photo: undefined as AssetKey | undefined,
+  photo: undefined as PhotoId | undefined,
 };
 
 export const letterPlaceholder = [
