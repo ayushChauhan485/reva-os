@@ -131,12 +131,15 @@ function Letter() {
         </div>
       ) : (
         letter.paragraphs.map((p, i) => (
-          <motion.p key={i} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.35, duration: 0.8 }}>
+          <motion.p key={i} initial={{ opacity: 0, y: 4 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.6 + i * 0.3, duration: 0.9 }}>
             {p}
           </motion.p>
         ))
       )}
-      <p className="letter__sig">{letter.signature}</p>
+      <motion.div className="letter__signoff" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 + letter.paragraphs.length * 0.3, duration: 1 }}>
+        {letter.signOff && <p className="letter__love">{letter.signOff}</p>}
+        <p className="letter__sig">{letter.signature}</p>
+      </motion.div>
       <div className="letter__close">
         <button className="btn" onClick={() => useDesktop.getState().close('classified')}>
           Close and return to the desktop

@@ -1573,7 +1573,19 @@ h4 {
 }
 
 .letter__greeting {
-  font-size: 18px;
+  font-family: var(--font-hand);
+  font-size: 34px !important;
+  line-height: 1.1 !important;
+  margin-bottom: 22px !important;
+}
+
+.letter__signoff {
+  margin-top: 28px;
+}
+
+.letter__love {
+  margin: 0 !important;
+  font-weight: 600;
 }
 
 .letter p {
@@ -1591,7 +1603,7 @@ h4 {
 .letter__sig {
   font-family: var(--font-hand);
   font-size: 34px !important;
-  margin-top: 26px !important;
+  margin-top: 2px !important;
   line-height: 1 !important;
 }
 

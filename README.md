@@ -78,10 +78,10 @@ Everything personal lives in `src/data/`:
 
 ## Still waiting for you
 
-1. **The letter**: `src/data/letter.ts` → `paragraphs`.
-2. **Ruru’s Special Recognition dedication**: `src/data/awards.ts` → `specialRecognition.dedication` (photo: `specialRecognition.image`). The award is hidden in production until this is filled.
-3. **White Memoir photo**: there is none in the project; it shows a placeholder.
-4. **Optional**: P06 and P21 are allow-listed but flagged “check with Ayush”. The Wishes shortlist (62 photos) hasn’t been reviewed for this site.
+1. **White Memoir photo**: there is none in the project; it shows a placeholder.
+2. **Optional**: P06 and P21 are allow-listed but flagged “check with Ayush”. The Wishes shortlist (62 photos) hasn’t been reviewed for this site.
+
+Done: the letter (`src/data/letter.ts`) and Ruru’s Special Recognition dedication (`src/data/awards.ts`, photo `specialRecognition.image`, currently P19).
 
 ## Privacy and deployment
 

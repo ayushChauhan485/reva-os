@@ -1242,3 +1242,136 @@
     width: 250px;
   }
 }
+
+/* ── the final award: the room goes quiet ─────────────────────────── */
+.awards:has(.closing--intimate) {
+  background: radial-gradient(60% 55% at 50% 40%, #3a141f 0%, #1c070d 70%, #0f0407 100%);
+  transition: background 2s;
+}
+
+.awards:has(.closing--intimate) .spot {
+  animation-play-state: paused;
+  opacity: 0;
+  transition: opacity 2s;
+}
+
+.awards:has(.closing--intimate) .spots::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: -10%;
+  width: 70%;
+  height: 120%;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 45% at 50% 40%, rgba(255, 228, 170, 0.12), transparent 70%);
+}
+
+.awards:has(.closing--intimate) .awards__curtain {
+  filter: brightness(0.45);
+  transition: filter 2s;
+}
+
+.awards:has(.closing--intimate) .awards__topbar {
+  opacity: 0.35;
+  transition: opacity 2s;
+}
+
+.dedication {
+  width: min(560px, 100%);
+  margin: 0 auto;
+  padding: 8px 0 30px;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+}
+
+.dedication__photo {
+  width: 150px;
+  padding: 8px 8px 22px;
+  background: #fbf5e6;
+  box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.9);
+  margin-bottom: 22px;
+}
+
+.dedication__photo img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.dedication__kicker {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: #c9a24b;
+}
+
+.dedication__sub {
+  margin: 6px 0 26px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  color: #fff3cf;
+}
+
+.dedication__body {
+  text-align: left;
+}
+
+.dedication__body p {
+  margin: 0 0 16px;
+  font-family: var(--font-display);
+  font-size: 18px;
+  line-height: 1.6;
+  color: #f2e6cc;
+  font-variation-settings: 'opsz' 24;
+}
+
+.dedication__winner {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 18px 0 8px;
+}
+
+.dedication__winner p {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3.6vw, 32px);
+  line-height: 1.2;
+  background: linear-gradient(180deg, #fff6d8 10%, #e8c46a 70%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.dedication__sig {
+  display: grid;
+  gap: 2px;
+  margin-top: 14px;
+  color: #f2e6cc;
+}
+
+.dedication__sig span {
+  font-size: 15px;
+}
+
+.dedication__sig b {
+  font-family: var(--font-hand);
+  font-weight: 500;
+  font-size: 34px;
+  line-height: 1;
+}
+
+.dedication__next {
+  margin-top: 26px;
+}
+
+.closing__finale {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}

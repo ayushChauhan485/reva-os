@@ -155,17 +155,29 @@ export const awards: RevaAward[] = [
   },
 ];
 
-/** Revealed only at the closing ceremony. Ruru writes this one. */
+/** The final award of the ceremony, revealed after the closing lines. Written by Ruru (05.11.2026). */
 export const specialRecognition = {
   id: 'ruru-special',
   title: 'Ruru’s Special Recognition Award',
-  subtitle: 'A category of one.',
+  subtitle: 'A special dedication to Reva.',
   trophyStyle: 'star' as const,
-  /** ✍️ choose the photograph for this award (any photo id) */
+  /** the photograph shown with the dedication (any photo id) */
   image: 'P19',
-  // ✍️ PLACEHOLDER — replace with your own dedication. Leave as '' to hide the award.
-  dedication: '',
-  placeholderNote: 'Ruru is still writing this one. Add the dedication in src/data/awards.ts → specialRecognition.dedication.',
+  /** one string per paragraph; leave empty to hide the award */
+  dedication: [
+    "And finally, there's one award I don't think I could put into a category.",
+    "Not because there aren't enough things to recognise, but because I wouldn't know where to start.",
+    "For the stories you tell, the way you think, the way you somehow manage to be both incredibly logical and completely unpredictable. For the little things you notice, the way you care, and all the different versions of you that I've slowly got to know.",
+    'For the person who made 27th April a date worth remembering, 6th May even more special, and the 27th of every month something to look forward to.',
+    'For making flowers mean a little more than they used to. For all the conversations that went on longer than expected. For the memories that I can still picture in my head without having to look them up in an archive.',
+    'And most importantly, for being someone I am genuinely, ridiculously happy to have in my life.',
+    "This award doesn't really have a runner-up, a voting round, or a jury.",
+    "It's just from me.",
+  ] as string[],
+  winnerLine: 'And the winner is... you, Riruu. Always you.',
+  signOff: 'With love,',
+  signature: 'Ruru 🐡',
+  placeholderNote: 'Add the dedication in src/data/awards.ts → specialRecognition.dedication.',
 };
 
 /** Silly acceptance-speech options. Responses are the Academy's, never Reva's. */

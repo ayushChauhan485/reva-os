@@ -40,7 +40,7 @@ export function HallOfFame({ go }: { go: (s: Scene) => void }) {
             </figcaption>
           </motion.figure>
         ))}
-        {closingSeen && specialRecognition.dedication && (
+        {closingSeen && specialRecognition.dedication.length > 0 && (
           <figure className="plinth plinth--special" tabIndex={0}>
             <div className="plinth__trophy">
               <Trophy style="star" size={92} />

@@ -87,3 +87,5 @@ Photo Booth, Then & Now, and the printable contact sheet *inside the app* are no
 
 - P12 stays unedited (Ruru’s decision); the crop is recorded but never shown.
 - Removed at Ruru’s request: every photo of Ruru (the 8 flower-making stills, all showing him) and the 4 handmade-bouquet photos. They are listed as excluded in `scripts/asset-sources.json`, their web copies are deleted, and the Flower Department and Flower Archive fall back to labelled illustrations and placeholders. The library now has 20 photographs.
+- The letter is in (`src/data/letter.ts`), word for word as Ruru wrote it, behind classified.exe. The handwritten “Happy 21st, Riruu.” header is switched off because the letter ends with the same line (`useHandwrittenHeader` turns it back on).
+- The closing ceremony is restructured. The two closing lines lead to “And finally…” and a last envelope: Ruru’s Special Recognition Award. The stage dims and the spotlights still, and the dedication arrives one paragraph at a time, ending on the winner line and “With love, Ruru 🐡”. Only then: “See you at the 22nd edition.”
